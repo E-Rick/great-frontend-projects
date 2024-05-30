@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-  <!-- [Delete this comment] This file is the main file for the challenge. For the most part, you should be editing this file. -->
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -12,30 +11,29 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/style.css" />
-
-    <!-- Tailwind CDN allows you to use Tailwind classes immediately in your HTML without any installation steps. 
-      If you're not using Tailwind, you may delete the <script> -->
-    <!-- Get started on Tailwind: https://tailwindcss.com/docs/installation/play-cdn -->
     <script src="https://cdn.tailwindcss.com"></script>
-
     <link rel="icon" href="img/favicon.ico" sizes="any" />
-    <style>
-      /* You may write styles inside this <style> tag or within `css/style.css`. */
-    </style>
   </head>
-  <body class="bg-gradient-to-br from-[#F9FAFB] to-[#D2D6DB]">
-    <!-- Add your site or application content here -->
-    <h1 class="text-5xl text-center font-semibold pt-20">
-      Hello world! Write your content here.
-    </h1>
+  <body class="flex flex-col min-h-screen bg-gradient-to-br from-[#F9FAFB] to-[#D2D6DB]">
+    <div class="mx-auto bg-white mt-[200px] shadow w-[340px] ring-1 ring-neutral-200 p-6 flex gap-4 rounded-lg flex-col">
+      <div class="flex items-center gap-4 w-full">
+        <img
+        src="img/profile-thumbnail.png"
+        alt="Headshot of Sarah Dole."
+        class="rounded-full"
+        width="48"
+        height="48"
+        />
+        <div class="flex flex-col gap-[1px] overflow-hidden">
+          <p class="text-lg text-neutral-900 font-semibold whitespace-nowrap overflow-hidden text-ellipsis">Sarah Dole</p>
+          <p class="text-sm text-neutral-600 whitespace-nowrap overflow-hidden text-ellipsis">@sarahdole</p>
+        </div>
+      </div>
+      <p class="text-neutral-600 text-base line-clamp-6">
+        I've been searching for high-quality abstract images for my design projects, and I'm thrilled to have found this platform. The variety and depth of creativity are astounding!
+      </p>
+    </div>
 
-    <!-- Sarah Dole
-      @sarahdole
-      I've been searching for high-quality abstract images for my design projects, 
-      and I'm thrilled to have found this platform. The variety and depth of creativity are astounding! 
-    -->
-
-    <!-- Attribute this challenge to yourself! -->
     <div class="credits" data-gfe-screenshot-exclude="true">
       A challenge by
       <a
@@ -46,9 +44,8 @@
       <a
         href="https://www.greatfrontend.com/projects/u/username"
         target="_blank"
-        >Your Name</a
+        >Erick Martinez Jr.</a
       >.
     </div>
-    <script src="js/index.js"></script>
   </body>
 </html>
