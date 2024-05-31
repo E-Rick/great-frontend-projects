@@ -8,13 +8,13 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    colors: {
-      'primary-invert': colors.white,
-      primary: colors.neutral[900],
-      secondary: colors.neutral[600],
-      brand: colors.indigo[700],
-    },
     extend: {
+      colors: {
+        'primary-invert': colors.white,
+        primary: colors.neutral[900],
+        secondary: colors.neutral[600],
+        brand: colors.indigo[700],
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
