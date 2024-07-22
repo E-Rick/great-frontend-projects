@@ -1,16 +1,16 @@
 import { MaxWidthWrapper } from "@/components/ui/max-width-wrapper";
 import {
   Sheet,
-  SheetTrigger,
+  SheetClose,
   SheetContent,
   SheetHeader,
-  SheetClose,
+  SheetTrigger,
 } from "@/components/ui/sheet";
 import WordMark from "@/components/ui/word-mark";
 import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 import Link from "next/link";
-import { RiShoppingBag3Line, RiMenuFill, RiCloseLine } from "react-icons/ri";
+import { RiCloseLine, RiMenuFill, RiShoppingBag3Line } from "react-icons/ri";
 
 export const navItems = [
   { name: "Shop all", href: "/" },
@@ -59,10 +59,10 @@ export function Nav() {
 
 function ShoppingCartIcon({ quantity }: { quantity: number }) {
   return (
-    <Link href="/cart" className={cn(navItemStyles(), "p-0 relative")}>
+    <Link href="/cart" className={cn(navItemStyles(), "relative p-0")}>
       <RiShoppingBag3Line size={24} />
       {quantity > 0 ? (
-        <span className="absolute text-center text-xs font-semibold text-white -top-2 rounded-full -right-2 bg-brand px-1 py-[1px] w-[18px] min-w-fit ">
+        <span className="absolute -right-2 -top-2 w-[18px] min-w-fit rounded-full bg-brand px-1 py-[1px] text-center text-xs font-semibold text-white">
           {quantity}
         </span>
       ) : null}
