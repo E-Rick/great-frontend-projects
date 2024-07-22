@@ -8,7 +8,7 @@ const buttonVariants = cva(
   [
     "inline-flex items-center gap-[6px] justify-center whitespace-nowrap",
     "rounded-md text-sm font-medium transition-colors",
-    "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand",
+    "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-nav-item/15 ",
     "disabled:pointer-events-none disabled:opacity-50",
   ],
   {
@@ -22,13 +22,14 @@ const buttonVariants = cva(
         secondary:
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-brand underline-offset-4 hover:underline",
+        link: "text-brand hover:text-indigo-800",
         "link-gray":
           "text-secondary hover:text-primary focus-visible:ring-nav-item/15 ",
       },
       size: {
         default: "h-9 px-4 py-2",
         sm: "h-8 rounded-md px-3 text-xs",
+        md: "h-fit rounded-[4px] text-sm px-0.5",
         lg: "h-11 rounded-[4px] px-8",
         xl: "h-12 rounded-[4px] px-10",
         icon: "h-9 w-9",
@@ -38,6 +39,18 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
+    compoundVariants: [
+      {
+        variant: "link",
+        size: "lg",
+        class: "px-0.5 h-fit",
+      },
+      {
+        variant: "link",
+        size: "md",
+        class: "",
+      },
+    ],
   },
 );
 

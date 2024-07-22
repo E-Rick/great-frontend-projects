@@ -11,10 +11,10 @@ export function ReviewRating({
   const roundedRating = Math.round(rating * 10) / 10;
 
   return (
-    <div className="flex items-center gap-2">
-      <span className="text-xl font-normal text-primary">{roundedRating}</span>
+    <div className="flex items-center w-full gap-2">
+      <span className="text-xl font-medium text-primary">{roundedRating}</span>
       <StarRating rating={rating} />
-      <Button variant="link" size="lg">
+      <Button variant="link" size="md" className="min-w-fit lg:text-sm">
         See all {reviewCount} reviews
       </Button>
     </div>
