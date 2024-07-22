@@ -5,8 +5,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-
-
 export function convertSize(size: string) {
   return size === 'xs'
     ? 'Extra Small'

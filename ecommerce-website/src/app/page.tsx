@@ -1,9 +1,9 @@
-import { Nav } from '@/components/ui/nav/nav'
+import { Nav } from "@/components/ui/nav/nav";
 
 export default function HomePage() {
-	return (
-		<div className=''>
-			<Nav />
-		</div>
-	)
+  return (
+    <div>
+      <Nav />
+    </div>
+  );
 }
