@@ -31,7 +31,9 @@ export function Nav() {
     <header className="sticky inset-x-0 top-0 z-30 w-full pt-4 transition-all">
       <MaxWidthWrapper className="relative">
         <nav className="flex w-full items-center gap-[103px]">
-          <WordMark />
+          <Link href="/">
+            <WordMark />
+          </Link>
           <ul className="flex gap-8 grow">
             {navItems.map((navItem) => (
               <li key={navItem.name}>
