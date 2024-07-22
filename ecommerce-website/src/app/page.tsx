@@ -1,9 +1,9 @@
-import ShoppingCart from '@/components/shopping-cart'
+import { Nav } from '@/components/ui/nav/nav'
 
-export default function Home() {
+export default function HomePage() {
 	return (
-		<main className='flex flex-col w-full min-h-screen px-3 py-12 lg:p-24'>
-			<ShoppingCart />
-		</main>
+		<div className=''>
+			<Nav />
+		</div>
 	)
 }
