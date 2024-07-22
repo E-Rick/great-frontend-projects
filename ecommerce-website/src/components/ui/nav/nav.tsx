@@ -46,14 +46,25 @@ export function Nav() {
           </ul>
 
           <div className="inline-flex gap-4">
-            <Link href="/cart" className={cn(navItemStyles(), "p-0")}>
-              <RiShoppingBag3Line size={24} />
-            </Link>
+            <ShoppingCartIcon quantity={8} />
             <NavMobileMenu />
           </div>
         </nav>
       </MaxWidthWrapper>
     </header>
+  );
+}
+
+function ShoppingCartIcon({ quantity }: { quantity: number }) {
+  return (
+    <Link href="/cart" className={cn(navItemStyles(), "p-0 relative")}>
+      <RiShoppingBag3Line size={24} />
+      {quantity > 0 ? (
+        <span className="absolute text-center text-xs font-semibold text-white -top-2 rounded-full -right-2 bg-brand px-1 py-[1px] w-[18px] min-w-fit ">
+          {quantity}
+        </span>
+      ) : null}
+    </Link>
   );
 }
 
