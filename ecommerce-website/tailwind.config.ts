@@ -35,7 +35,8 @@ const config: Config = {
         'brand-solid': colors.indigo[600],
         'brand-subtle': colors.indigo[200],
         'error-subtle': colors.red[200],
-        'warning-subtle': colors.amber[200]
+        'warning-subtle': colors.amber[200],
+        'nav-item': '#444CE7',
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
