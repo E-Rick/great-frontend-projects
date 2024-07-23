@@ -10,23 +10,23 @@ const useProductColors = (productId: string) =>
 
 export function ColorSelector({ productId }: { productId: string }) {
   const colors = useProductColors(productId);
-  const colorsIsNullorUndefined = colors === null || colors === undefined;
+  const isColorNullOrUndefined = colors === null || colors === undefined;
 
   const [activeColor, setActiveColor] = useState(
-    colorsIsNullorUndefined ? null : colors[0],
+    isColorNullOrUndefined ? null : colors[0],
   );
 
-  if (colorsIsNullorUndefined) return null;
+  if (isColorNullOrUndefined) return null;
 
   const handleSelectorClick = (color: string) => {
     setActiveColor(color);
   };
 
   return (
-    <div className="flex flex-col w-full gap-4">
+    <div className="flex w-full flex-col gap-4">
       <Label>Available Colors</Label>
 
-      <div className="flex flex-wrap w-full gap-4">
+      <div className="flex w-full flex-wrap gap-4">
         {colors.map((color) => (
           <div key={color} className="p-[9.33px]">
             <Selector
