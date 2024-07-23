@@ -37,6 +37,12 @@ const config: Config = {
         'error-subtle': colors.red[200],
         'warning-subtle': colors.amber[200],
         'nav-item': '#444CE7',
+        brown: {
+          500: '#bfa094',
+        },
+        beige: {
+          500: "#ede8d0"
+        }
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
