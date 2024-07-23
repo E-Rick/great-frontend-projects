@@ -1,19 +1,29 @@
+import useProductContext from "@/app/product/[id]/product-context";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useProductData } from "@/hooks/use-product-query";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useEffect } from "react";
 
 const useProductSizes = (productId: string) =>
   useProductData(productId, (data) => data.sizes);
 
 export function SizeSelector({ productId }: { productId: string }) {
+  const { activeSize, activeColor, setActiveSize } = useProductContext();
   const sizes = useProductSizes(productId);
+  // const sizes = useProductInventory(productId, activeColor, activeSize);
   const isSizeNullOrUndefined = sizes === null || sizes === undefined;
 
-  const [activeSize, setActiveSize] = useState(
-    isSizeNullOrUndefined ? null : sizes[0],
-  );
+  // const [activeColor, setActiveColor] = useState(
+  //   isColorNullOrUndefined ? null : colors[0],
+  // );
+
+  useEffect(() => {
+    if (sizes !== null && sizes !== undefined) setActiveSize(sizes[0]);
+  }, [sizes, setActiveSize]);
+  // const [activeSize, setActiveSize] = useState(
+  //   isSizeNullOrUndefined ? null : sizes[0],
+  // );
 
   if (isSizeNullOrUndefined) return null;
 
