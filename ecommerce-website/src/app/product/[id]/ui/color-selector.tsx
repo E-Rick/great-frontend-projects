@@ -26,10 +26,10 @@ export function ColorSelector({ productId }: { productId: string }) {
   };
 
   return (
-    <div className="flex flex-col w-full gap-4">
+    <div className="flex w-full flex-col gap-4">
       <Label>Available Colors</Label>
 
-      <div className="flex flex-wrap w-full gap-4">
+      <div className="flex w-full flex-wrap gap-4">
         {colors.map((color) => {
           // Check the stock for that color
 

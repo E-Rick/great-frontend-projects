@@ -6,7 +6,7 @@ import {
   useProductInventoryByColorAndSize,
 } from "@/hooks/use-product-query";
 import { cn } from "@/lib/utils";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 const useProductSizes = (productId: string) =>
   useProductData(productId, (data) => data.sizes);
@@ -60,8 +60,8 @@ function Selector({ isActive, onClick, size, productId }: SelectorProps) {
     activeColor,
     size,
   );
-  if (inventory === undefined) return null;
-  const isOutOfStock = inventory.stock === 0;
+  const isOutOfStock = useMemo(() => inventory?.stock === 0, [inventory]);
+
   return (
     <Button
       variant="outline"
