@@ -22,3 +22,11 @@ export const useProductQuery = <TData = ProductDetail,>(
     queryFn: fetchProductById,
     select,
   });
+
+
+export const useProductData = <TData = ProductDetail,>(
+  productId: string,
+  select?: (data: ProductDetail) => TData,
+) => {
+  return useProductQuery(productId, select).data
+}
