@@ -21,14 +21,14 @@ export default function ProductDetailsSection() {
   if (!data) return null;
 
   return (
-    <div className="mx-auto flex w-full max-w-screen-xl flex-col gap-12 px-4 pt-16 lg:flex-row lg:gap-8 lg:px-8 lg:pt-24">
+    <div className="flex flex-col w-full max-w-screen-xl gap-12 px-4 pt-16 mx-auto lg:flex-row lg:gap-8 lg:px-8 lg:pt-24">
       <div className="">
         <div className="h-[400px] w-full rounded-lg outline outline-primary lg:h-[800px] lg:w-[592px]">
           {/* <Image src={data.images[0].image_url} alt="" /> */}
         </div>
         <div></div>
       </div>
-      <div className="flex w-full flex-col gap-8">
+      <div className="flex flex-col w-full gap-8">
         <div className="flex flex-col gap-5">
           <h2 className="text-3xl font-semibold text-primary lg:text-5xl">
             {data.name}
@@ -40,7 +40,7 @@ export default function ProductDetailsSection() {
           </div>
         </div>
         <p className="text-secondary">{data.description}</p>
-        <div className="flex w-full flex-col gap-8">
+        <div className="flex flex-col w-full gap-8">
           {/* Colors Selection */}
           <ColorSelector productId={productId} />
           {/* Sizes Selection */}
@@ -48,7 +48,7 @@ export default function ProductDetailsSection() {
           {/* Quantity controls */}
           <div className="flex flex-col gap-4">
             <Label>Quantity</Label>
-            <CartControl />
+            <CartControl productId={productId} />
           </div>
         </div>
         <Button size="xl">Add to Cart</Button>
@@ -69,7 +69,7 @@ function ProductMeta({ productId }: { productId: string }) {
     salePrice: inventory["sale_price"],
   };
 
-  console.log({ productMeta });
+  // console.log({ productMeta });
 
   return (
     <div className="flex flex-col gap-3">
