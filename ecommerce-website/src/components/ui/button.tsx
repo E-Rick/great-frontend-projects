@@ -9,7 +9,7 @@ const buttonVariants = cva(
     "inline-flex items-center gap-[6px] justify-center whitespace-nowrap",
     "rounded-md text-sm font-medium transition-colors",
     "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-nav-item/15 ",
-    "disabled:pointer-events-none disabled:opacity-50",
+    "disabled:pointer-events-none",
   ],
   {
     variants: {
@@ -18,7 +18,7 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
-          "border border-input bg-background shadow-sm hover:bg-neutral-50  hover:text-primary-hover focus-visible:ring-brand",
+          "border border-input bg-white shadow-sm hover:bg-neutral-50  hover:text-primary-hover focus-visible:ring-brand focus-visible:bg-neutral-50",
         secondary:
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",

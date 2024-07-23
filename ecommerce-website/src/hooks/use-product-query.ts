@@ -63,3 +63,13 @@ export const useProductInventoryByColor = (
     const inventory = data.inventory
     return inventory?.filter(item => item.color === color)
   })
+
+export const useProductInventoryByColorAndSize = (
+  productId: string,
+  color?: string | null,
+  size?: string | number | null
+) =>
+  useProductData(productId, (data) => {
+    const inventory = data.inventory
+    return inventory?.find(item => item.color === color && item.size === size)
+  })

@@ -1,7 +1,10 @@
 import useProductContext from "@/app/product/[id]/product-context";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { useProductData } from "@/hooks/use-product-query";
+import {
+  useProductData,
+  useProductInventoryByColorAndSize,
+} from "@/hooks/use-product-query";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
 
@@ -11,19 +14,12 @@ const useProductSizes = (productId: string) =>
 export function SizeSelector({ productId }: { productId: string }) {
   const { activeSize, activeColor, setActiveSize } = useProductContext();
   const sizes = useProductSizes(productId);
-  // const sizes = useProductInventory(productId, activeColor, activeSize);
-  const isSizeNullOrUndefined = sizes === null || sizes === undefined;
 
-  // const [activeColor, setActiveColor] = useState(
-  //   isColorNullOrUndefined ? null : colors[0],
-  // );
+  const isSizeNullOrUndefined = sizes === null || sizes === undefined;
 
   useEffect(() => {
     if (sizes !== null && sizes !== undefined) setActiveSize(sizes[0]);
   }, [sizes, setActiveSize]);
-  // const [activeSize, setActiveSize] = useState(
-  //   isSizeNullOrUndefined ? null : sizes[0],
-  // );
 
   if (isSizeNullOrUndefined) return null;
 
@@ -41,6 +37,7 @@ export function SizeSelector({ productId }: { productId: string }) {
               isActive={size === activeSize}
               size={size}
               onClick={handleSelectorClick}
+              productId={productId}
             />
           </li>
         ))}
@@ -53,15 +50,29 @@ type SelectorProps = {
   isActive: boolean;
   onClick: (size: string) => void;
   size: string;
+  productId: string;
 };
 
-function Selector({ isActive, onClick, size }: SelectorProps) {
+function Selector({ isActive, onClick, size, productId }: SelectorProps) {
+  const { activeColor } = useProductContext();
+  const inventory = useProductInventoryByColorAndSize(
+    productId,
+    activeColor,
+    size,
+  );
+  if (inventory === undefined) return null;
+  const isOutOfStock = inventory.stock === 0;
   return (
     <Button
       variant="outline"
       size="xl"
-      className={cn("w-16 uppercase", isActive && "ring-1 ring-brand")}
+      className={cn(
+        "w-16 uppercase disabled:text-disabled",
+        isActive && "ring-1 ring-brand",
+        isOutOfStock && "border-none bg-neutral-100 text-disabled",
+      )}
       onClick={() => onClick(size)}
+      disabled={isOutOfStock}
     >
       {convertSize(size)}
     </Button>
