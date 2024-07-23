@@ -84,7 +84,7 @@ function Selector({ isActive, onClick, color, productId }: SelectorProps) {
     <Button
       variant="ghost"
       className={cn(
-        `h-[38px] w-[38px] rounded-full p-0 ${colorVariants[color]}`,
+        `h-[38px] w-[38px] rounded-full p-0 hover:border-[2.33px] hover:border-indigo-200 focus-visible:ring-[9.33px] ${colorVariants[color]}`,
         isActive && "ring-1 ring-brand",
         isActive && !isWhite && "border-[2.33px] border-white",
       )}
