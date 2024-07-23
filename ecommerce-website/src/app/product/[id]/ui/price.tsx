@@ -32,7 +32,7 @@ export function Price({
       {hasDiscountPercentage ? (
         <Badge variant="warning">{discountPercentage}% OFF</Badge>
       ) : hasDiscount ? (
-        <Badge variant="warning">${} OFF</Badge>
+        <Badge variant="success">${} OFF</Badge>
       ) : null}
     </div>
   );
