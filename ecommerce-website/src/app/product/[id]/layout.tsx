@@ -1,11 +1,9 @@
-import { MaxWidthWrapper } from "@/components/ui/max-width-wrapper";
-import { Nav } from "@/components/ui/nav/nav";
+import Providers from "./providers";
 
 export default function ProductPageLayout(props) {
   return (
-    <MaxWidthWrapper className="flex flex-col min-h-screen">
-      <Nav />
-      {props.children}
-    </MaxWidthWrapper>
+    <div className="flex flex-col min-h-screen">
+      <Providers>{props.children}</Providers>
+    </div>
   );
 }
