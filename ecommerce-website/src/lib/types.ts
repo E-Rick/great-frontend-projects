@@ -96,9 +96,9 @@ export interface ProductDetail {
   collection: Collection;
   created_at: string;
   colors?: (string)[] | null;
-  images?: (ImagesEntity)[] | null;
+  images?: (ImagesEntity)[];
   info?: (InfoEntity)[] | null;
-  inventory?: (InventoryEntity)[] | null;
+  inventory?: (InventoryEntity)[]; // Can I assume inventory is never null?
   priceRange: PriceRange;
   rating: number;
   reviews: number;
