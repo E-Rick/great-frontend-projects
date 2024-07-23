@@ -1,15 +1,17 @@
-export interface Inventory {
+
+export interface InventoryEntity {
   product_id: string;
   sku: string;
   color: string;
-  size?: string | number;
+  size: string | number | null;
   list_price: number;
-  discount?: number | null;
-  discount_percentage?: number | null;
+  discount: number | null;
+  discount_percentage: number | null;
   sale_price: number;
   sold: number;
   stock: number;
 }
+
 
 export interface Category {
   category_id: string;
@@ -122,17 +124,6 @@ export interface ImagesEntity {
 export interface InfoEntity {
   title: string;
   description?: (string)[] | null;
-}
-export interface InventoryEntity {
-  sku: string;
-  color: string;
-  size: string;
-  list_price: number;
-  discount?: null;
-  discount_percentage: number;
-  sale_price: number;
-  sold: number;
-  stock: number;
 }
 
 export interface PriceRange {
