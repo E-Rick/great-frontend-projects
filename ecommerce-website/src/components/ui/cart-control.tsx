@@ -64,6 +64,7 @@ export const CartControl = ({ productId }: CartControlProps) => {
         onTouchStart={startDecrement}
         onTouchEnd={stopDecrement}
         disabled={quantity === 1}
+        tabIndex={-1}
       >
         <RiSubtractFill />
       </Button>
@@ -79,6 +80,7 @@ export const CartControl = ({ productId }: CartControlProps) => {
         onTouchStart={startIncrement}
         onTouchEnd={stopIncrement}
         disabled={quantity === inventory?.stock}
+        tabIndex={-1}
       >
         <RiAddFill />
       </Button>
