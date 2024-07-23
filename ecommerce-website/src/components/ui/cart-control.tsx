@@ -1,19 +1,29 @@
+import useProductContext from "@/app/product/[id]/product-context";
 import { Button } from "@/components/ui/button";
+import { useProductInventoryByColorAndSize } from "@/hooks/use-product-query";
 import { useRef, useState } from "react";
 import { RiAddFill, RiSubtractFill } from "react-icons/ri";
 
-type CartControlProps = {};
+type CartControlProps = {
+  productId: string;
+};
 
-export const CartControl = (props: CartControlProps) => {
+export const CartControl = ({ productId }: CartControlProps) => {
+  const { activeSize, activeColor } = useProductContext();
+  const inventory = useProductInventoryByColorAndSize(
+    productId,
+    activeColor,
+    activeSize,
+  );
   const [quantity, setQuantity] = useState(1);
-
   const incrementIntervalRef = useRef<number | null>(null);
   const decrementIntervalRef = useRef<number | null>(null);
 
   const handleDecrementClick = () =>
     setQuantity((prev) => (prev >= 2 ? prev - 1 : 1));
 
-  const handleIncrementClick = () => setQuantity((prev) => prev + 1);
+  const handleIncrementClick = () =>
+    setQuantity((prev) => (prev === inventory?.stock ? prev : prev + 1));
 
   const startIncrement = () => {
     handleIncrementClick();
@@ -53,6 +63,7 @@ export const CartControl = (props: CartControlProps) => {
         onMouseLeave={stopDecrement}
         onTouchStart={startDecrement}
         onTouchEnd={stopDecrement}
+        disabled={quantity === 1}
       >
         <RiSubtractFill />
       </Button>
@@ -67,6 +78,7 @@ export const CartControl = (props: CartControlProps) => {
         onMouseLeave={stopIncrement}
         onTouchStart={startIncrement}
         onTouchEnd={stopIncrement}
+        disabled={quantity === inventory?.stock}
       >
         <RiAddFill />
       </Button>
