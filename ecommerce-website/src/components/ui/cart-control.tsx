@@ -1,7 +1,7 @@
 import useProductContext from "@/app/product/[id]/product-context";
 import { Button } from "@/components/ui/button";
 import { useProductInventoryByColorAndSize } from "@/hooks/use-product-query";
-import { useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { RiAddFill, RiSubtractFill } from "react-icons/ri";
 
 type CartControlProps = {
@@ -9,13 +9,20 @@ type CartControlProps = {
 };
 
 export const CartControl = ({ productId }: CartControlProps) => {
-  const { activeSize, activeColor } = useProductContext();
+  const { activeSize, activeColor, quantity, setQuantity } =
+    useProductContext();
   const inventory = useProductInventoryByColorAndSize(
     productId,
     activeColor,
     activeSize,
   );
-  const [quantity, setQuantity] = useState(1);
+  const isOutOfStock = inventory?.stock === 0;
+
+  useEffect(() => {
+    if (isOutOfStock) setQuantity(0);
+    else setQuantity(1);
+  }, [isOutOfStock, setQuantity]);
+
   const incrementIntervalRef = useRef<number | null>(null);
   const decrementIntervalRef = useRef<number | null>(null);
 
@@ -63,14 +70,14 @@ export const CartControl = ({ productId }: CartControlProps) => {
         onMouseLeave={stopDecrement}
         onTouchStart={startDecrement}
         onTouchEnd={stopDecrement}
-        disabled={quantity === 1}
+        disabled={quantity === 1 || isOutOfStock}
         tabIndex={-1}
       >
         <RiSubtractFill />
       </Button>
-      <div className="m-auto flex w-[49px] items-center justify-center">
+      <span className="m-auto flex w-[49px] items-center justify-center text-sm font-medium">
         {quantity}
-      </div>
+      </span>
       <Button
         variant="ghost"
         size="icon"
@@ -79,7 +86,7 @@ export const CartControl = ({ productId }: CartControlProps) => {
         onMouseLeave={stopIncrement}
         onTouchStart={startIncrement}
         onTouchEnd={stopIncrement}
-        disabled={quantity === inventory?.stock}
+        disabled={quantity === inventory?.stock || isOutOfStock}
         tabIndex={-1}
       >
         <RiAddFill />
