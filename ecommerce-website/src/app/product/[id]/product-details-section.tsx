@@ -3,7 +3,7 @@ import useProductContext from "@/app/product/[id]/product-context";
 import { ColorSelector } from "@/app/product/[id]/ui/color-selector";
 import { Price, PriceProps } from "@/app/product/[id]/ui/price";
 import { ReviewRating } from "@/app/product/[id]/ui/review-rating";
-import { SizeSelector } from "@/app/product/[id]/ui/size-selector";
+import { SizeSelectors } from "@/app/product/[id]/ui/size-selectors";
 import { Button } from "@/components/ui/button";
 import { CartControl } from "@/components/ui/cart-control";
 import { Label } from "@/components/ui/label";
@@ -53,7 +53,7 @@ export default function ProductDetailsSection() {
           {/* Colors Selection */}
           <ColorSelector productId={productId} />
           {/* Sizes Selection */}
-          <SizeSelector productId={productId} />
+          <SizeSelectors productId={productId} />
           {/* Quantity controls */}
           <div className="flex flex-col gap-4">
             <Label>Quantity</Label>

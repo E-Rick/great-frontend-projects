@@ -8,17 +8,18 @@ const buttonVariants = cva(
   [
     "inline-flex items-center gap-[6px] justify-center whitespace-nowrap",
     "rounded-md text-sm font-medium transition-colors",
-    "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-nav-item/15 ",
+    "focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-nav-item/15 ",
     "disabled:pointer-events-none disabled:text-disabled",
   ],
   {
     variants: {
       variant: {
-        default: "bg-brand text-primary-invert shadow hover:bg-brand/90",
+        default:
+          "bg-brand text-primary-invert shadow hover:bg-indigo-900 focus",
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
-          "border border-input bg-white shadow-sm hover:bg-neutral-50  hover:text-primary-hover focus-visible:ring-brand focus-visible:bg-neutral-50",
+          "border border-input bg-white shadow-sm hover:bg-neutral-50  hover:text-primary-hover  focus-visible:bg-neutral-50",
         secondary:
           "bg-white text-primary shadow-sm border-[.5px] hove border-neutral-200 hover:text-primary-hover hover:bg-neutral-50 hover:border-1 disabled:border-none focus- disabled:bg-neutral-100",
         ghost: "hover:bg-accent hover:text-accent-foreground",
