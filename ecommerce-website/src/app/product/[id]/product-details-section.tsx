@@ -65,7 +65,13 @@ export default function ProductDetailsSection() {
             </p>
           )}
         </div>
-        <Button size="xl">Add to Cart</Button>
+        <Button
+          size="xl"
+          variant={isActiveItemOutOfStock ? "secondary" : "default"}
+          disabled={isActiveItemOutOfStock}
+        >
+          Add to Cart
+        </Button>
       </div>
     </div>
   );
