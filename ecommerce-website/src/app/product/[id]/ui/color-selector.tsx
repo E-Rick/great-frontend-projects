@@ -34,7 +34,7 @@ export function ColorSelector({ productId }: { productId: string }) {
           // Check the stock for that color
 
           return (
-            <div key={color} className="p-[9.33px]">
+            <div key={color} className="h-[56.67px] p-[9.33px]">
               <Selector
                 key={color}
                 color={color}
@@ -63,7 +63,7 @@ function Selector({ isActive, onClick, color, productId }: SelectorProps) {
   const colorVariants = {
     beige: "bg-beige-500",
     black: "bg-black",
-    orange: "bg-orange-500",
+    orange: "bg-orange-600",
     pink: "bg-pink-500",
     yellow: "bg-yellow-500",
     green: "bg-emerald-500",
