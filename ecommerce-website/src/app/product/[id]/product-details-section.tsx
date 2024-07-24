@@ -12,11 +12,20 @@ import {
   useProductQuery,
 } from "@/hooks/use-product-query";
 import { useParams } from "next/navigation";
+import { useProductInventoryByColorAndSize } from "../../../hooks/use-product-query";
 
 export default function ProductDetailsSection() {
   const { id: productId } = useParams() as { id: string };
 
+  const { activeSize, activeColor } = useProductContext();
   const { data } = useProductQuery(productId);
+  const inventory = useProductInventoryByColorAndSize(
+    productId,
+    activeColor,
+    activeSize,
+  );
+
+  const isActiveItemOutOfStock = inventory?.stock === 0;
 
   if (!data) return null;
 
@@ -50,6 +59,11 @@ export default function ProductDetailsSection() {
             <Label>Quantity</Label>
             <CartControl productId={productId} />
           </div>
+          {isActiveItemOutOfStock && (
+            <p className="text-xl font-semibold text-primary">
+              Sorry, this item is out of stock
+            </p>
+          )}
         </div>
         <Button size="xl">Add to Cart</Button>
       </div>
@@ -68,8 +82,6 @@ function ProductMeta({ productId }: { productId: string }) {
     discountPercentage: inventory["discount_percentage"],
     salePrice: inventory["sale_price"],
   };
-
-  // console.log({ productMeta });
 
   return (
     <div className="flex flex-col gap-3">
