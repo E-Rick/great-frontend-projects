@@ -1,5 +1,5 @@
-import { StarRating } from "@/app/product/[id]/ui/star-rating";
 import { Button } from "@/components/ui/button";
+import { StarRating } from "@/components/ui/star-rating";
 
 export function ReviewRating({
   reviewCount,
