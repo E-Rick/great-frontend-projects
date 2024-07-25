@@ -1,6 +1,3 @@
-import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
-
 // https://stackoverflow.com/questions/11556493/second-line-in-li-starts-under-the-bullet-after-css-reset
 export function Accordion({
   title,
@@ -9,22 +6,13 @@ export function Accordion({
   title: string;
   content: string[];
 }) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    setIsOpen(false);
-  }, []);
-
   return (
     <div className="mb-6 border-b border-neutral-200 last:mb-0 last:border-none">
-      <details>
-        <summary
-          className="m-auto flex w-full items-center justify-between pb-8 text-lg font-medium focus-visible:ring-brand"
-          onClick={() => setIsOpen(!isOpen)}
-        >
+      <details className="group">
+        <summary className="m-auto flex w-full items-center justify-between pb-8 text-lg font-medium focus-visible:ring-brand">
           {title}
           <span aria-hidden={true}>
-            <Icon accordionIsOpen={isOpen} />
+            <Icon />
           </span>
         </summary>
         <div className="-mt-6 mb-7 h-auto overflow-hidden transition-all duration-300">
@@ -39,7 +27,7 @@ export function Accordion({
   );
 }
 
-function Icon({ accordionIsOpen }: { accordionIsOpen: boolean }) {
+function Icon() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -50,7 +38,6 @@ function Icon({ accordionIsOpen }: { accordionIsOpen: boolean }) {
       className=""
     >
       <circle r="9" cx="12" cy="12" stroke="#A3A3A3" strokeWidth="2" />
-      {/* horizontal */}
       <rect width="10" height="2" fill="#A3A3A3" y="11" x="7" />
       <rect
         width="2"
@@ -58,10 +45,7 @@ function Icon({ accordionIsOpen }: { accordionIsOpen: boolean }) {
         fill="#A3A3A3"
         y="7"
         x="11"
-        className={cn(
-          "pee origin-center transform transition duration-200 ease-out",
-          accordionIsOpen && "scale-y-0",
-        )}
+        className="origin-center transform transition duration-200 ease-out group-open:scale-y-0"
       />
     </svg>
   );
