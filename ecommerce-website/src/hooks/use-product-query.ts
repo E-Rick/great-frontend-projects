@@ -73,3 +73,12 @@ export const useProductInventoryByColorAndSize = (
     const inventory = data.inventory
     return inventory?.find(item => item.color === color && item.size === size)
   })
+
+export const useProductImagesByColor = (
+  productId: string,
+  color?: string | null
+) => useProductData(productId, (data) => {
+  const images = data.images
+  return images?.filter(image => image.color === color)
+})
+
