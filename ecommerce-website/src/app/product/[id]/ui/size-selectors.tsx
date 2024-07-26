@@ -79,6 +79,7 @@ function SizeSelector({
           size,
         })}`}
         scroll={false}
+        replace
       >
         <span className="px-0.5">{convertSize(size)}</span>
       </Link>
