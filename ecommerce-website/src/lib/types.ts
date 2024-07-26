@@ -95,7 +95,7 @@ export interface ProductDetail {
   category: Category;
   collection: Collection;
   created_at: string;
-  colors?: (string)[] | null;
+  colors?: string[];
   images?: (ImagesEntity)[];
   info?: (InfoEntity)[] | null;
   inventory?: (InventoryEntity)[]; // Can I assume inventory is never null?
