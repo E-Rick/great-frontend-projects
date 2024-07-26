@@ -1,4 +1,3 @@
-import useProductContext from "@/app/product/[id]/product-context";
 import { Label } from "@/components/ui/label";
 import { Selector } from "@/components/ui/selector";
 import {
@@ -6,26 +5,25 @@ import {
   useProductInventoryByColorAndSize,
 } from "@/hooks/use-product-query";
 import { cn } from "@/lib/utils";
-import { useEffect } from "react";
+import Link from "next/link";
 
 const useProductSizes = (productId: string) =>
   useProductData(productId, (data) => data.sizes);
 
-export function SizeSelectors({ productId }: { productId: string }) {
-  const { activeSize, activeColor, setActiveSize } = useProductContext();
-  const sizes = useProductSizes(productId);
+type SizeSelectorsProps = {
+  productId: string;
+  selectedSize: string | null;
+  selectedColor: string | null;
+};
 
-  const isSizeNullOrUndefined = sizes === null || sizes === undefined;
+export function SizeSelectors({
+  productId,
+  selectedSize,
+  selectedColor,
+}: SizeSelectorsProps) {
+  const sizes = useProductSizes(productId) as string[];
 
-  useEffect(() => {
-    if (sizes !== null && sizes !== undefined) setActiveSize(sizes[0]);
-  }, [sizes, setActiveSize]);
-
-  if (isSizeNullOrUndefined) return null;
-
-  const handleSelectorClick = (size: string) => {
-    setActiveSize(size);
-  };
+  if (sizes === null || sizes === undefined) return null;
 
   return (
     <div className="flex flex-col gap-4">
@@ -34,10 +32,10 @@ export function SizeSelectors({ productId }: { productId: string }) {
         {sizes.map((size) => (
           <SizeSelector
             key={size}
-            isActive={size === activeSize}
+            isActive={size === selectedSize}
             size={size}
-            onClick={handleSelectorClick}
             productId={productId}
+            selectedColor={selectedColor}
           />
         ))}
       </div>
@@ -47,16 +45,20 @@ export function SizeSelectors({ productId }: { productId: string }) {
 
 type SelectorProps = {
   isActive: boolean;
-  onClick: (size: string) => void;
   size: string;
   productId: string;
+  selectedColor: string | null;
 };
 
-function SizeSelector({ isActive, onClick, size, productId }: SelectorProps) {
-  const { activeColor } = useProductContext();
+function SizeSelector({
+  isActive,
+  size,
+  productId,
+  selectedColor,
+}: SelectorProps) {
   const inventory = useProductInventoryByColorAndSize(
     productId,
-    activeColor,
+    selectedColor,
     size,
   );
   const isOutOfStock = inventory?.stock === 0;
@@ -68,10 +70,17 @@ function SizeSelector({ isActive, onClick, size, productId }: SelectorProps) {
         isActive && "ring-1 ring-indigo-600 ring-offset-1",
         isOutOfStock && "bg-neutral-100 outline-0",
       )}
-      onClick={() => onClick(size)}
       disabled={isOutOfStock}
+      asChild
     >
-      <span className="px-0.5">{convertSize(size)}</span>
+      <Link
+        href={`?${new URLSearchParams({
+          color: selectedColor as string,
+          size,
+        })}`}
+      >
+        <span className="px-0.5">{convertSize(size)}</span>
+      </Link>
     </Selector>
   );
 }

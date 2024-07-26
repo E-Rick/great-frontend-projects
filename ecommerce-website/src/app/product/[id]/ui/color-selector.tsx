@@ -1,29 +1,28 @@
-import useProductContext from "@/app/product/[id]/product-context";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { useProductData } from "@/hooks/use-product-query";
+import {
+  useProductColors,
+  useProductInventoryByColor,
+} from "@/hooks/use-product-query";
 import { cn } from "@/lib/utils";
-import { useEffect, useMemo } from "react";
+import Link from "next/link";
+import { useMemo } from "react";
 import { RiCheckFill } from "react-icons/ri";
-import { useProductInventoryByColor } from "../../../../hooks/use-product-query";
 
-const useProductColors = (productId: string) =>
-  useProductData(productId, (data) => data.colors);
+type ColorSelectorProps = {
+  productId: string;
+  selectedSize: string | null;
+  selectedColor: string | null;
+};
 
-export function ColorSelector({ productId }: { productId: string }) {
-  const colors = useProductColors(productId);
-  const isColorNullOrUndefined = colors === null || colors === undefined;
-  const { activeColor, setActiveColor } = useProductContext();
+export function ColorSelector({
+  productId,
+  selectedColor,
+  selectedSize,
+}: ColorSelectorProps) {
+  const colors = useProductColors(productId) as string[];
 
-  useEffect(() => {
-    if (colors !== null && colors !== undefined) setActiveColor(colors[0]);
-  }, [colors, setActiveColor]);
-
-  if (isColorNullOrUndefined) return null;
-
-  const handleSelectorClick = (color: string) => {
-    setActiveColor(color);
-  };
+  if (colors === null || colors === undefined) return null;
 
   return (
     <div className="flex w-full flex-col gap-4">
@@ -31,16 +30,14 @@ export function ColorSelector({ productId }: { productId: string }) {
 
       <div className="flex w-full flex-wrap gap-4">
         {colors.map((color) => {
-          // Check the stock for that color
-
           return (
             <div key={color} className="h-[56.67px] p-[9.33px]">
               <Selector
                 key={color}
                 color={color}
-                isActive={color === activeColor}
-                onClick={handleSelectorClick}
+                isActive={color === selectedColor}
                 productId={productId}
+                selectedSize={selectedSize}
               />
             </div>
           );
@@ -53,11 +50,11 @@ export function ColorSelector({ productId }: { productId: string }) {
 type SelectorProps = {
   productId: string;
   isActive: boolean;
-  onClick: (color: string) => void;
   color: string;
+  selectedSize: string | null;
 };
 
-function Selector({ isActive, onClick, color, productId }: SelectorProps) {
+function Selector({ isActive, color, productId, selectedSize }: SelectorProps) {
   const colorInventory = useProductInventoryByColor(productId, color);
 
   const colorVariants = {
@@ -88,18 +85,25 @@ function Selector({ isActive, onClick, color, productId }: SelectorProps) {
         isActive && "ring-1 ring-brand",
         isActive && !isWhite && "border-[2.33px] border-white",
       )}
-      onClick={() => onClick(color)}
+      asChild
     >
-      {isColorOutOfStock ? (
-        <Line />
-      ) : isActive ? (
-        <RiCheckFill size={28} className="text-primary-invert" />
-      ) : null}
+      <Link
+        href={`?${new URLSearchParams({
+          color,
+          size: selectedSize as string,
+        })}`}
+      >
+        {isColorOutOfStock ? (
+          <LineSVG />
+        ) : isActive ? (
+          <RiCheckFill size={28} className="text-primary-invert" />
+        ) : null}
+      </Link>
     </Button>
   );
 }
 
-function Line() {
+function LineSVG() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
