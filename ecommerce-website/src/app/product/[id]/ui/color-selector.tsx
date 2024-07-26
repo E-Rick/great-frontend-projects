@@ -64,7 +64,7 @@ function Selector({ isActive, color, productId, selectedSize }: SelectorProps) {
     pink: "bg-pink-500",
     yellow: "bg-yellow-500",
     green: "bg-emerald-500",
-    white: "bg-white border-black border-[1px]",
+    white: "bg-white drop-shadow",
     brown: "bg-brown-500",
     blue: "bg-blue-500",
     red: "bg-red-500",
