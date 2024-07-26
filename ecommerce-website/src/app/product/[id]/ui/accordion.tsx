@@ -15,7 +15,7 @@ export function Accordion({
             <Icon />
           </span>
         </summary>
-        <div className="-mt-6 mb-7 h-auto overflow-hidden transition-all duration-300">
+        <div className="-mt-6 mb-7 overflow-hidden opacity-0 transition-all duration-300 ease-in-out group-open:opacity-100">
           <ul className="ml-[1.25rem] list-outside list-disc pr-12 text-base text-neutral-600">
             {content.map((text, i) => (
               <li key={i}>{text}</li>
