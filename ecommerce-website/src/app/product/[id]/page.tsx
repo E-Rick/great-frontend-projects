@@ -1,4 +1,4 @@
-import ProductDetailsSection from "@/app/product/[id]/product-details-section";
+import ProductDetails from "@/app/product/[id]/components/product-details";
 import { fetchProductById } from "@/hooks/use-product-query";
 import {
   dehydrate,
@@ -19,7 +19,7 @@ export default async function ProductPage({ params }) {
   return (
     <>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <ProductDetailsSection />
+        <ProductDetails />
       </HydrationBoundary>
     </>
   );
