@@ -1,21 +1,27 @@
 import useProductContext from "@/app/product/[id]/context/product-context";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useProductInventoryByColorAndSize } from "@/hooks/use-product-query";
 import { useEffect, useRef } from "react";
 import { RiAddFill, RiSubtractFill } from "react-icons/ri";
 
 type CartControlProps = {
   productId: string;
+  stock?: number;
+  color?: string | null;
+  size?: string | number | null;
 };
 
-export const CartControl = ({ productId }: CartControlProps) => {
+// TODO: Figure out better API for this to also work with shopping cart page.
+export const CartControl = ({ productId, color, size }: CartControlProps) => {
   const { activeSize, activeColor, quantity, setQuantity } =
     useProductContext();
-  const inventory = useProductInventoryByColorAndSize(
-    productId,
-    activeColor,
-    activeSize,
-  );
+  const inventory = useProductInventoryByColorAndSize(productId, color, size);
   const isOutOfStock = inventory?.stock === 0;
 
   useEffect(() => {
@@ -78,19 +84,30 @@ export const CartControl = ({ productId }: CartControlProps) => {
       <span className="m-auto flex w-[49px] items-center justify-center text-sm font-medium">
         {quantity}
       </span>
-      <Button
-        variant="ghost"
-        size="icon"
-        onMouseDown={startIncrement}
-        onMouseUp={stopIncrement}
-        onMouseLeave={stopIncrement}
-        onTouchStart={startIncrement}
-        onTouchEnd={stopIncrement}
-        disabled={quantity === inventory?.stock || isOutOfStock}
-        tabIndex={-1}
-      >
-        <RiAddFill />
-      </Button>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              onMouseDown={startIncrement}
+              onMouseUp={stopIncrement}
+              onMouseLeave={stopIncrement}
+              onTouchStart={startIncrement}
+              onTouchEnd={stopIncrement}
+              disabled={quantity === inventory?.stock || isOutOfStock}
+              tabIndex={-1}
+              className="disabled:cursor-not-allowed"
+            >
+              <RiAddFill />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Insufficient stock</p>
+            {/* <ToolTipArrow /> */}
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </div>
   );
 };

@@ -40,7 +40,7 @@ export default function ProductDetailsSection() {
       <ImageGallery productId={productId} selectedColor={selectedColor} />
       <div className="flex flex-col gap-10">
         <div className="flex w-full flex-col gap-8">
-          <div className="flex flex-col gap-5">
+          <div className="product-header flex flex-col gap-5">
             <h2 className="text-3xl font-semibold text-primary lg:text-5xl">
               {data.name}
             </h2>
@@ -54,8 +54,8 @@ export default function ProductDetailsSection() {
               <ReviewRating reviewCount={data.reviews} rating={data.rating} />
             </div>
           </div>
-          <p className="text-secondary">{data.description}</p>
-          <div className="flex w-full flex-col gap-8">
+          <p className="product-spiel text-secondary">{data.description}</p>
+          <div className="product-options flex w-full flex-col gap-8">
             {/* Colors Selection */}
             <ColorSelector
               productId={productId}
@@ -71,7 +71,11 @@ export default function ProductDetailsSection() {
             {/* Quantity controls */}
             <div className="flex flex-col gap-4">
               <Label>Quantity</Label>
-              <CartControl productId={productId} />
+              <CartControl
+                productId={productId}
+                color={selectedColor}
+                size={selectedSize}
+              />
             </div>
             {isSelectedItemOutOfStock && (
               <p className="text-xl font-semibold text-primary">
