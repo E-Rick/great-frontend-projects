@@ -78,6 +78,7 @@ function SizeSelector({
           color: selectedColor as string,
           size,
         })}`}
+        scroll={false}
       >
         <span className="px-0.5">{convertSize(size)}</span>
       </Link>

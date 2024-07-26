@@ -92,6 +92,7 @@ function Selector({ isActive, color, productId, selectedSize }: SelectorProps) {
           color,
           size: selectedSize as string,
         })}`}
+        scroll={false}
       >
         {isColorOutOfStock ? (
           <LineSVG />
