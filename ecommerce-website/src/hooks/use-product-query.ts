@@ -12,7 +12,6 @@ export const fetchProductById = async ({
   return data;
 };
 
-
 export const useProductQuery = <TData = ProductDetail,>(
   productId: string,
   select?: (data: ProductDetail) => TData,
@@ -22,7 +21,6 @@ export const useProductQuery = <TData = ProductDetail,>(
     queryFn: fetchProductById,
     select,
   });
-
 
 export const useProductData = <TData = ProductDetail,>(
   productId: string,
@@ -82,3 +80,6 @@ export const useProductImagesByColor = (
   return images?.filter(image => image.color === color)
 })
 
+
+export const useProductColors = (productId: string) =>
+  useProductData(productId, (data) => data.colors);
