@@ -1,4 +1,4 @@
-import useProductContext from "@/app/product/[id]/product-context";
+import useProductContext from "@/app/product/[id]/context/product-context";
 import { Button } from "@/components/ui/button";
 import { useProductInventoryByColorAndSize } from "@/hooks/use-product-query";
 import { useEffect, useRef } from "react";
