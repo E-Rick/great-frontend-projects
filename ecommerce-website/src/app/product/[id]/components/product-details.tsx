@@ -5,8 +5,8 @@ import { PriceTag } from "@/app/product/[id]/ui/price-tag";
 import { ProductInfoList } from "@/app/product/[id]/ui/product-info-list";
 import { ReviewRating } from "@/app/product/[id]/ui/review-rating";
 import { SizeSelectors } from "@/app/product/[id]/ui/size-selectors";
+import { CartControl } from "@/components/cart/cart-control";
 import { Button } from "@/components/ui/button";
-import { CartControl } from "@/components/ui/cart-control";
 import { Label } from "@/components/ui/label";
 import {
   useProductInventoryByColorAndSize,
