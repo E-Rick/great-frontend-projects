@@ -1,53 +1,89 @@
-import {
+"use client";
+
+import { useRouter, useSearchParams } from "next/navigation";
+import React, {
   createContext,
-  Dispatch,
-  SetStateAction,
   useContext,
-  useState,
+  useMemo,
+  useOptimistic,
 } from "react";
 
-type ProductContextReturnTypes = {
-  activeColor: string | null;
-  setActiveColor: Dispatch<SetStateAction<string | null>>;
-  activeSize: string | number | null;
-  setActiveSize: Dispatch<SetStateAction<string | number | null>>;
-  quantity: number;
-  setQuantity: Dispatch<SetStateAction<number>>;
+type ProductState = {
+  [key: string]: string;
+} & {
+  image?: string;
 };
 
-const ProductContext = createContext<ProductContextReturnTypes>({
-  activeColor: null,
-  setActiveColor: () => {},
-  activeSize: null,
-  setActiveSize: () => {},
-  quantity: 1,
-  setQuantity: () => {},
-});
+type ProductContextType = {
+  state: ProductState;
+  updateOption: (name: string, value: string) => ProductState;
+  updateImage: (index: string) => ProductState;
+};
 
-export function ProductProvider({ children }) {
-  const [activeColor, setActiveColor] = useState(null);
-  const [activeSize, setActiveSize] = useState(null);
-  const [quantity, setQuantity] = useState(1);
+const ProductContext = createContext<ProductContextType | undefined>(undefined);
+
+export function ProductProvider({ children }: { children: React.ReactNode }) {
+  const searchParams = useSearchParams();
+
+  const getInitialState = () => {
+    const params: ProductState = {};
+    for (const [key, value] of searchParams.entries()) {
+      params[key] = value;
+    }
+    return params;
+  };
+
+  const [state, setOptimisticState] = useOptimistic(
+    getInitialState(),
+    (prevState: ProductState, update: ProductState) => ({
+      ...prevState,
+      ...update,
+    }),
+  );
+
+  const updateOption = (name: string, value: string) => {
+    const newState = { [name]: value };
+    setOptimisticState(newState);
+    return { ...state, ...newState };
+  };
+
+  const updateImage = (index: string) => {
+    const newState = { image: index };
+    setOptimisticState(newState);
+    return { ...state, ...newState };
+  };
+
+  const value = useMemo(
+    () => ({
+      state,
+      updateOption,
+      updateImage,
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [state],
+  );
+
   return (
-    <ProductContext.Provider
-      value={{
-        activeColor,
-        setActiveColor,
-        activeSize,
-        setActiveSize,
-        quantity,
-        setQuantity,
-      }}
-    >
-      {children}
-    </ProductContext.Provider>
+    <ProductContext.Provider value={value}>{children}</ProductContext.Provider>
   );
 }
 
-export function useProductContext() {
+export function useProduct() {
   const context = useContext(ProductContext);
-  if (!context) console.error("No product context");
+  if (context === undefined) {
+    throw new Error("useProduct must be used within a ProductProvider");
+  }
   return context;
 }
 
-export default useProductContext;
+export function useUpdateURL() {
+  const router = useRouter();
+
+  return (state: ProductState) => {
+    const newParams = new URLSearchParams(window.location.search);
+    Object.entries(state).forEach(([key, value]) => {
+      newParams.set(key, value);
+    });
+    router.push(`?${newParams.toString()}`, { scroll: false });
+  };
+}
