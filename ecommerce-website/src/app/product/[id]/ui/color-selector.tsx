@@ -1,3 +1,7 @@
+import {
+  useProduct,
+  useUpdateURL,
+} from "@/app/product/[id]/context/product-context";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
@@ -5,7 +9,6 @@ import {
   useProductInventoryByColor,
 } from "@/hooks/use-product-query";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 import { useMemo } from "react";
 import { RiCheckFill } from "react-icons/ri";
 
@@ -56,6 +59,8 @@ type SelectorProps = {
 
 function Selector({ isActive, color, productId, selectedSize }: SelectorProps) {
   const colorInventory = useProductInventoryByColor(productId, color);
+  const { updateOption } = useProduct();
+  const updateURL = useUpdateURL();
 
   const colorVariants = {
     beige: "bg-beige-500",
@@ -78,30 +83,26 @@ function Selector({ isActive, color, productId, selectedSize }: SelectorProps) {
   );
 
   return (
-    <Button
-      variant="ghost"
-      className={cn(
-        `h-[38px] w-[38px] rounded-full p-0 hover:border-[2.33px] hover:border-indigo-200 focus-visible:ring-[9.33px] ${colorVariants[color]}`,
-        isActive && "ring-1 ring-brand",
-        isActive && !isWhite && "border-[2.33px] border-white",
-      )}
-      asChild
-    >
-      <Link
-        href={`?${new URLSearchParams({
-          color,
-          size: selectedSize as string,
-        })}`}
-        scroll={false}
-        replace
+    <form>
+      <Button
+        variant="ghost"
+        className={cn(
+          `h-[38px] w-[38px] rounded-full p-0 hover:border-[2.33px] hover:border-indigo-200 focus-visible:ring-[9.33px] ${colorVariants[color]}`,
+          isActive && "ring-1 ring-brand",
+          isActive && !isWhite && "border-[2.33px] border-white",
+        )}
+        formAction={() => {
+          const newState = updateOption("color", color);
+          updateURL(newState);
+        }}
       >
         {isColorOutOfStock ? (
           <LineSVG />
         ) : isActive ? (
           <RiCheckFill size={28} className="text-primary-invert" />
         ) : null}
-      </Link>
-    </Button>
+      </Button>
+    </form>
   );
 }
 

@@ -1,3 +1,7 @@
+import {
+  useProduct,
+  useUpdateURL,
+} from "@/app/product/[id]/context/product-context";
 import { Label } from "@/components/ui/label";
 import { Selector } from "@/components/ui/selector";
 import {
@@ -5,7 +9,6 @@ import {
   useProductInventoryByColorAndSize,
 } from "@/hooks/use-product-query";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 
 const useProductSizes = (productId: string) =>
   useProductData(productId, (data) => data.sizes);
@@ -62,28 +65,26 @@ function SizeSelector({
     size,
   );
   const isOutOfStock = inventory?.stock === 0;
+  const { updateOption } = useProduct();
+  const updateURL = useUpdateURL();
 
   return (
-    <Selector
-      size="xl"
-      className={cn(
-        isActive && "ring-1 ring-indigo-600 ring-offset-1",
-        isOutOfStock && "bg-neutral-100 outline-0",
-      )}
-      disabled={isOutOfStock}
-      asChild
-    >
-      <Link
-        href={`?${new URLSearchParams({
-          color: selectedColor as string,
-          size,
-        })}`}
-        scroll={false}
-        replace
+    <form>
+      <Selector
+        size="xl"
+        className={cn(
+          isActive && "ring-1 ring-indigo-600 ring-offset-1",
+          isOutOfStock && "bg-neutral-100 outline-0",
+        )}
+        disabled={isOutOfStock}
+        formAction={() => {
+          const newState = updateOption("size", size);
+          updateURL(newState);
+        }}
       >
         <span className="px-0.5">{convertSize(size)}</span>
-      </Link>
-    </Selector>
+      </Selector>
+    </form>
   );
 }
 
