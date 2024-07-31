@@ -1,7 +1,4 @@
-import {
-  useProduct,
-  useUpdateURL,
-} from "@/app/product/[id]/context/product-context";
+import { useProduct, useUpdateURL } from "@/components/product/product-context";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {

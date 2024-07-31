@@ -1,4 +1,4 @@
-import { useProduct } from "@/app/product/[id]/context/product-context";
+import { useProduct } from "@/components/product/product-context";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useProductInventoryByColorAndSize } from "@/hooks/use-product-query";
 import { RiAddFill, RiSubtractFill } from "react-icons/ri";
-import { useUpdateURL } from "../../app/product/[id]/context/product-context";
+import { useUpdateURL } from "../product/product-context";
 
 type CartControlProps = {
   productId: string;

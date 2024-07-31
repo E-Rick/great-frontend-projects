@@ -1,11 +1,12 @@
 "use client";
-import { ColorSelector } from "@/app/product/[id]/ui/color-selector";
-import { ImageGallery } from "@/app/product/[id]/ui/image-gallery";
-import { PriceTag } from "@/app/product/[id]/ui/price-tag";
-import { ProductInfoList } from "@/app/product/[id]/ui/product-info-list";
-import { ReviewRating } from "@/app/product/[id]/ui/review-rating";
-import { SizeSelectors } from "@/app/product/[id]/ui/size-selectors";
+
 import { CartControl } from "@/components/cart/cart-control";
+import { ColorSelector } from "@/components/product/color-selector";
+import { ImageGallery } from "@/components/product/image-gallery";
+import { PriceTag } from "@/components/product/price-tag";
+import { ProductInfoList } from "@/components/product/product-info-list";
+import { ReviewRating } from "@/components/product/review-rating";
+import { SizeSelectors } from "@/components/product/size-selectors";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {

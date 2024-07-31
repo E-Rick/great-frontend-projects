@@ -1,4 +1,4 @@
-import ProductDetails from "@/app/product/[id]/components/product-details";
+import ProductDetails from "@/components/product/product-details";
 import { fetchProductById } from "@/hooks/use-product-query";
 import {
   dehydrate,

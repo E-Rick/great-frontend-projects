@@ -9,7 +9,7 @@ export function Accordion({
   return (
     <div className="mb-6 border-b border-neutral-200 last:mb-0 last:border-none">
       <details className="group">
-        <summary className="m-auto flex w-full items-center justify-between pb-8 text-lg font-medium focus-visible:ring-brand">
+        <summary className="m-auto flex w-full cursor-pointer items-center justify-between pb-8 text-lg font-medium focus-visible:ring-brand">
           {title}
           <span aria-hidden={true}>
             <Icon />

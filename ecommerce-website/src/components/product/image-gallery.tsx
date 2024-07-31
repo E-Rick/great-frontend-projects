@@ -1,8 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import {
-  useProduct,
-  useUpdateURL,
-} from "@/app/product/[id]/context/product-context";
+import { useProduct, useUpdateURL } from "@/components/product/product-context";
 import { BlurImage } from "@/components/ui/blur-image";
 import { useProductImagesByColor } from "@/hooks/use-product-query";
 import { cn } from "@/lib/utils";
