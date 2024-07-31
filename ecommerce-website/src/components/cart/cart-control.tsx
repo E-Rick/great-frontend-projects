@@ -56,9 +56,11 @@ export const CartControl = ({ productId, color, size }: CartControlProps) => {
               <TooltipTrigger asChild>
                 <Button
                   formAction={() => {
-                    const prev = state.quantity ?? 1;
+                    const prev: string = state.quantity ?? "1";
                     const newQuantity =
-                      prev == inventory?.stock ? prev : Number(prev) + 1;
+                      parseInt(prev) == inventory?.stock
+                        ? prev
+                        : parseInt(prev) + 1;
                     const newState = updateOption(
                       "quantity",
                       newQuantity.toString(),
@@ -83,9 +85,9 @@ export const CartControl = ({ productId, color, size }: CartControlProps) => {
         ) : (
           <Button
             formAction={() => {
-              const prev = state.quantity ?? 1;
+              const prev: string = state.quantity ?? "1";
               const newQuantity =
-                prev == inventory?.stock ? prev : Number(prev) + 1;
+                parseInt(prev) == inventory?.stock ? prev : parseInt(prev) + 1;
               const newState = updateOption("quantity", newQuantity.toString());
               updateURL(newState);
             }}
