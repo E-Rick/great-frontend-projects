@@ -66,7 +66,7 @@ export function ImageGallery({
                     isTwoImages
                       ? "w-[calc(50%_-_8px)]"
                       : isThreeImages
-                        ? "w-[calc(100%_-_2_*_16px)_/_3)]"
+                        ? "w-[calc((100%_-_2_*_16px)_/_3)]"
                         : "w-[80px] md:w-[188px] lg:w-[160px]",
                   )}
                 >
