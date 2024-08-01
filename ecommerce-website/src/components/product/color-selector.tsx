@@ -26,10 +26,10 @@ export function ColorSelector({
   if (colors === null || colors === undefined) return null;
 
   return (
-    <div className="flex w-full flex-col gap-4">
+    <div className="flex flex-col w-full gap-4">
       <Label>Available Colors</Label>
 
-      <div className="flex w-full flex-wrap gap-4">
+      <div className="flex flex-wrap w-full gap-4">
         {colors.map((color) => {
           return (
             <div key={color} className="h-[56.67px] p-[9.33px]">
@@ -102,6 +102,7 @@ function Selector({ isActive, color, productId, selectedSize }: SelectorProps) {
           })}`}
           scroll={false}
           replace
+          tabIndex={-1}
         >
           {isColorOutOfStock ? (
             <LineSVG />

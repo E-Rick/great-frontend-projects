@@ -88,6 +88,7 @@ function SizeSelector({
           })}`}
           scroll={false}
           replace
+          tabIndex={-1}
         >
           <span className="px-0.5">{convertSize(size)}</span>
         </Link>
