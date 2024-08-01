@@ -52,7 +52,11 @@ export default function ProductDetailsSection() {
                 selectedColor={selectedColor}
                 selectedSize={selectedSize}
               />
-              <ReviewRating reviewCount={data.reviews} rating={data.rating} />
+              <ReviewRating
+                productId={productId}
+                reviewCount={data.reviews}
+                rating={data.rating}
+              />
             </div>
           </div>
           <p className="product-spiel text-secondary">{data.description}</p>
