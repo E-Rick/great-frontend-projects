@@ -6,6 +6,7 @@ import {
   useProductInventoryByColorAndSize,
 } from "@/hooks/use-product-query";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 const useProductSizes = (productId: string) =>
   useProductData(productId, (data) => data.sizes);
@@ -62,7 +63,7 @@ function SizeSelector({
     size,
   );
   const isOutOfStock = inventory?.stock === 0;
-  const { updateOption } = useProduct();
+  const { state, updateOption } = useProduct();
   const updateURL = useUpdateURL();
 
   return (
@@ -78,8 +79,19 @@ function SizeSelector({
           const newState = updateOption("size", size);
           updateURL(newState);
         }}
+        asChild
       >
-        <span className="px-0.5">{convertSize(size)}</span>
+        <Link
+          href={`?${new URLSearchParams({
+            ...state,
+            color: selectedColor as string,
+            size,
+          })}`}
+          scroll={false}
+          replace
+        >
+          <span className="px-0.5">{convertSize(size)}</span>
+        </Link>
       </Selector>
     </form>
   );

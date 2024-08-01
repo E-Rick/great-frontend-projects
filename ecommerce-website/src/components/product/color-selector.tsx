@@ -6,6 +6,7 @@ import {
   useProductInventoryByColor,
 } from "@/hooks/use-product-query";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 import { useMemo } from "react";
 import { RiCheckFill } from "react-icons/ri";
 
@@ -56,7 +57,7 @@ type SelectorProps = {
 
 function Selector({ isActive, color, productId, selectedSize }: SelectorProps) {
   const colorInventory = useProductInventoryByColor(productId, color);
-  const { updateOption } = useProduct();
+  const { state, updateOption } = useProduct();
   const updateURL = useUpdateURL();
 
   const colorVariants = {
@@ -92,12 +93,23 @@ function Selector({ isActive, color, productId, selectedSize }: SelectorProps) {
           const newState = updateOption("color", color);
           updateURL(newState);
         }}
+        asChild
       >
-        {isColorOutOfStock ? (
-          <LineSVG />
-        ) : isActive ? (
-          <RiCheckFill size={28} className="text-primary-invert" />
-        ) : null}
+        <Link
+          href={`?${new URLSearchParams({
+            ...state,
+            color,
+            size: selectedSize as string,
+          })}`}
+          scroll={false}
+          replace
+        >
+          {isColorOutOfStock ? (
+            <LineSVG />
+          ) : isActive ? (
+            <RiCheckFill size={28} className="text-primary-invert" />
+          ) : null}
+        </Link>
       </Button>
     </form>
   );
