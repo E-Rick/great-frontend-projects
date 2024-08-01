@@ -79,7 +79,6 @@ function SizeSelector({
           const newState = updateOption("size", size);
           updateURL(newState);
         }}
-        asChild
       >
         <Link
           href={`?${new URLSearchParams({

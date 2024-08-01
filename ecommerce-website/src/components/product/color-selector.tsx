@@ -93,7 +93,6 @@ function Selector({ isActive, color, productId, selectedSize }: SelectorProps) {
           const newState = updateOption("color", color);
           updateURL(newState);
         }}
-        asChild
       >
         <Link
           href={`?${new URLSearchParams({
