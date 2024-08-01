@@ -1,5 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
+"use client";
 import { useProduct, useUpdateURL } from "@/components/product/product-context";
+import ScrollableContainer from "@/components/product/scrollable-container";
 import { BlurImage } from "@/components/ui/blur-image";
 import { useProductImagesByColor } from "@/hooks/use-product-query";
 import { cn } from "@/lib/utils";
@@ -46,7 +47,7 @@ export function ImageGallery({
             />
           )}
         </div>
-        <ul className="flex w-full max-w-[592px] grow gap-4 overflow-hidden overflow-x-scroll">
+        <ScrollableContainer className="no-scrollbar lg:max-w-[592px]">
           {images.length > 1 &&
             images.map((image, index) => {
               const isActive = imageIndex === index;
@@ -54,14 +55,14 @@ export function ImageGallery({
               const isThreeImages = images.length === 3;
 
               return (
-                <li
+                <div
                   key={image.image_url}
                   className={cn(
                     "relative h-[120px] flex-auto shrink-0 md:h-[190px]",
                     isTwoImages
-                      ? "w-1/2"
+                      ? "w-[calc(50%_-_8px)]"
                       : isThreeImages
-                        ? "w-1/3"
+                        ? "w-[calc(100%_-_2_*_16px)_/_3)]"
                         : "w-[80px] md:w-[188px] lg:w-[160px]",
                   )}
                 >
@@ -95,10 +96,10 @@ export function ImageGallery({
                       />
                     )}
                   </button>
-                </li>
+                </div>
               );
             })}
-        </ul>
+        </ScrollableContainer>
       </div>
     </form>
   );
