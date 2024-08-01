@@ -4,7 +4,7 @@ export interface ProductReview {
   pagination: Pagination;
 }
 export interface Aggregate {
-  counts?: (CountsEntity)[] | null;
+  counts: CountsEntity[];
   rating: number;
   total: number;
 }
