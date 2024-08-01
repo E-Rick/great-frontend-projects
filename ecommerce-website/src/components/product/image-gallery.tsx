@@ -22,8 +22,8 @@ export function ImageGallery({
     return (
       <div className="flex flex-col gap-2 lg:w-[592px]">
         <div className="h-[400px] w-full overflow-hidden rounded-lg outline-primary lg:h-[800px] lg:w-[592px]">
-          <div className="flex h-full w-full items-center justify-center bg-gray-200">
-            <span className="text-gray-500">No images available</span>
+          <div className="flex h-full w-full items-center justify-center bg-neutral-200">
+            <span className="text-neutral-500">No images available</span>
           </div>
         </div>
       </div>
