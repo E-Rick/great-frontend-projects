@@ -17,6 +17,7 @@ type ProductState = {
 type ProductContextType = {
   state: ProductState;
   updateOption: (name: string, value: string) => ProductState;
+  removeOption: (name: string) => ProductState;
   updateImage: (index: string) => ProductState;
 };
 
@@ -47,6 +48,17 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
     return { ...state, ...newState };
   };
 
+  const removeOption = (name: string) => {
+    const newState = Object.fromEntries(
+      Object.entries(state).filter(([key, value]) => key !== name),
+    );
+    console.log(`🚀 --------------------------------------🚀`);
+    console.log(`🚀 ~ removeOption ~ newState:`, newState);
+    console.log(`🚀 --------------------------------------🚀`);
+    setOptimisticState(newState);
+    return { ...newState };
+  };
+
   const updateImage = (index: string) => {
     const newState = { image: index };
     setOptimisticState(newState);
@@ -57,6 +69,7 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
     () => ({
       state,
       updateOption,
+      removeOption,
       updateImage,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -81,9 +94,19 @@ export function useUpdateURL() {
 
   return (state: ProductState) => {
     const newParams = new URLSearchParams(window.location.search);
+
+    // Remove keys that are not in the new state
+    Array.from(newParams.keys()).forEach((key) => {
+      if (!(key in state)) {
+        newParams.delete(key);
+      }
+    });
+
+    // Set new parameters from the state
     Object.entries(state).forEach(([key, value]) => {
       newParams.set(key, value);
     });
+
     router.push(`?${newParams.toString()}`, { scroll: false });
   };
 }
