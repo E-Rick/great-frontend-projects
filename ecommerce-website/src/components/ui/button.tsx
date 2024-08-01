@@ -26,6 +26,8 @@ const buttonVariants = cva(
         link: "text-brand hover:text-indigo-800",
         "link-gray":
           "text-secondary hover:text-primary focus-visible:ring-nav-item/15 ",
+        tertiary:
+          "bg-white text-brand hover:bg-neutral-50 disabled:bg-neutral-400",
       },
       size: {
         default: "h-9 px-4 py-2",
@@ -43,6 +45,11 @@ const buttonVariants = cva(
     compoundVariants: [
       {
         variant: "link",
+        size: "lg",
+        class: "px-0.5 h-fit",
+      },
+      {
+        variant: "link-gray",
         size: "lg",
         class: "px-0.5 h-fit",
       },
