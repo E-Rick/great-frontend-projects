@@ -62,7 +62,7 @@ function Price({
       {hasDiscountPercentage ? (
         <Badge variant="warning">{discountPercentage}% OFF</Badge>
       ) : hasDiscount ? (
-        <Badge variant="success">${} OFF</Badge>
+        <Badge variant="success">${discount} OFF</Badge>
       ) : null}
     </div>
   );
