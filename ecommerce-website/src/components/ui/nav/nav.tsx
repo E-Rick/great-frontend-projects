@@ -28,10 +28,10 @@ export const navItemStyles = cva([
 
 export function Nav() {
   return (
-    <header className="sticky inset-x-0 top-0 z-30 w-full pt-4 transition-all">
+    <header className="sticky inset-x-0 top-0 z-30 w-full pt-4 transition-all bg-white">
       <MaxWidthWrapper className="relative">
-        <nav className="flex w-full items-center gap-[103px]">
-          <Link href="/">
+        <nav className="flex w-full shrink-0 items-center justify-between md:gap-[103px]">
+          <Link href="/" className="shrink-0">
             <WordMark />
           </Link>
           <ul className="flex gap-8 grow">
@@ -47,7 +47,7 @@ export function Nav() {
             ))}
           </ul>
 
-          <div className="inline-flex gap-4">
+          <div className="inline-flex items-end gap-4">
             <ShoppingCartIcon quantity={8} />
             <NavMobileMenu />
           </div>

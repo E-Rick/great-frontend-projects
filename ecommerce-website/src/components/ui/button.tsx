@@ -8,29 +8,31 @@ const buttonVariants = cva(
   [
     "inline-flex items-center gap-[6px] justify-center whitespace-nowrap",
     "rounded-md text-sm font-medium transition-colors",
-    "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand",
-    "disabled:pointer-events-none disabled:opacity-50",
+    "focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-nav-item/15 ",
+    " disabled:text-disabled disabled:cursor-not-allowed",
   ],
   {
     variants: {
       variant: {
-        default: "bg-brand text-primary-invert shadow hover:bg-brand/90",
+        default:
+          "bg-brand text-primary-invert shadow hover:bg-indigo-900 focus",
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
-          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+          "border border-input bg-white shadow-sm hover:bg-neutral-50  hover:text-primary-hover  focus-visible:bg-neutral-50",
         secondary:
-          "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+          "bg-white text-primary shadow-sm border-[.5px] hove border-neutral-200 hover:text-primary-hover hover:bg-neutral-50 hover:border-1 disabled:border-none focus- disabled:bg-neutral-100",
         ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-brand underline-offset-4 hover:underline",
+        link: "text-brand hover:text-indigo-800",
         "link-gray":
           "text-secondary hover:text-primary focus-visible:ring-nav-item/15 ",
       },
       size: {
         default: "h-9 px-4 py-2",
         sm: "h-8 rounded-md px-3 text-xs",
+        md: "h-fit rounded-[4px] text-sm px-0.5",
         lg: "h-11 rounded-[4px] px-8",
-        xl: "h-12 rounded-[4px] px-10",
+        xl: "h-12 rounded-[4px] px-5",
         icon: "h-9 w-9",
       },
     },
@@ -38,6 +40,18 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
+    compoundVariants: [
+      {
+        variant: "link",
+        size: "lg",
+        class: "px-0.5 h-fit",
+      },
+      {
+        variant: "link",
+        size: "md",
+        class: "",
+      },
+    ],
   },
 );
 
