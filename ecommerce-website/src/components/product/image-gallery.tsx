@@ -3,7 +3,7 @@ import { useProduct, useUpdateURL } from "@/components/product/product-context";
 import ScrollableContainer from "@/components/product/scrollable-container";
 import { BlurImage } from "@/components/ui/blur-image";
 import { useProductImagesByColor } from "@/hooks/use-product-query";
-import { cn } from "@/lib/utils";
+import { cn, wrap } from "@/lib/utils";
 import Image from "next/image";
 
 export function ImageGallery({
@@ -16,7 +16,6 @@ export function ImageGallery({
   const images = useProductImagesByColor(productId, selectedColor);
   const { state, updateImage } = useProduct();
   const updateURL = useUpdateURL();
-  const imageIndex = state.image ? parseInt(state.image) : 0;
 
   if (!images || images.length === 0) {
     return (
@@ -29,6 +28,11 @@ export function ImageGallery({
       </div>
     );
   }
+
+  // Validation to ensure that the index from url always results in a valid image index.
+  const imageIndex = state.image
+    ? wrap(0, images.length, parseInt(state.image))
+    : 0;
 
   const mainImageUrl = images[imageIndex]?.image_url;
 
