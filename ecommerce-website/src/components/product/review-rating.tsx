@@ -11,6 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
+import { Skeleton } from "@/components/ui/skeleton";
 import { StarRating } from "@/components/ui/star-rating";
 import {
   useFilteredProductReviewCount,
@@ -126,10 +127,10 @@ export function ReviewRating({
             </Button>
           </div>
         </div>
-        <div className="right-container flex-1 lg:m-auto">
+        <div className="right-container flex-1 lg:mx-auto">
           {hasReviews && filterHasReviews ? (
-            <div className="flex h-full flex-col gap-6 overflow-hidden overflow-y-auto px-4">
-              <div className="flex flex-col gap-6">
+            <div className="scrollbox flex h-full flex-col gap-6 overflow-auto px-4">
+              <div className="flex flex-col justify-start gap-6">
                 {data?.pages.map((page) => {
                   if (!page.data) return null;
                   return (
@@ -280,6 +281,9 @@ function ReviewList({ data }: { data: DataEntity[] }) {
     <div className="flex flex-col gap-6">
       {data.map((review) => {
         const user = review.user;
+        // if (!review) {
+        //   return <ReviewSkeleton key={user.user_id} />;
+        // }
         return (
           <div key={user.user_id} className="flex flex-col gap-4">
             <div className="flex gap-4">
@@ -308,6 +312,24 @@ function ReviewList({ data }: { data: DataEntity[] }) {
           </div>
         );
       })}
+    </div>
+  );
+}
+
+function ReviewSkeleton() {
+  return (
+    <div className="flex flex-col gap-4">
+      <div className="flex gap-4">
+        <Skeleton className="h-12 w-12 rounded-full" />
+        <div className="details flex flex-auto flex-col items-start gap-1">
+          <div className="title flex w-full items-center justify-between">
+            <Skeleton className="inline h-6 w-full" />
+          </div>
+          <Skeleton className="h-5 w-[116px]" />
+        </div>
+      </div>
+
+      <Skeleton className="h-4 w-full" />
     </div>
   );
 }
