@@ -48,7 +48,7 @@ const RATINGS: RatingValue[] = [
 
 export function RatingValues({ productId }: { productId: string }) {
   return (
-    <div className="flex w-full flex-col gap-3 py-4">
+    <div className="flex w-full flex-col gap-4 py-4">
       {RATINGS.map((ratingValue) => {
         return (
           <RatingValue
