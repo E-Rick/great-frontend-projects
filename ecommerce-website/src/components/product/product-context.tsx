@@ -52,9 +52,7 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
     const newState = Object.fromEntries(
       Object.entries(state).filter(([key, value]) => key !== name),
     );
-    console.log(`🚀 --------------------------------------🚀`);
-    console.log(`🚀 ~ removeOption ~ newState:`, newState);
-    console.log(`🚀 --------------------------------------🚀`);
+
     setOptimisticState(newState);
     return { ...newState };
   };
