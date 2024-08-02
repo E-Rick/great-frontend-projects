@@ -14,7 +14,6 @@ import { Progress } from "@/components/ui/progress";
 import { StarRating } from "@/components/ui/star-rating";
 import { useReviewPageSize } from "@/hooks/use-review-page-size";
 import { DataEntity } from "@/lib/product-review-types";
-import { isNotNullish } from "@/lib/typeguards";
 import { cn } from "@/lib/utils";
 import { useMemo } from "react";
 import { RiChatSmile3Line } from "react-icons/ri";
@@ -37,8 +36,9 @@ export function ReviewRating({
 
   const defaultFilter = null;
   const ratingFilter = state.filterByRating ?? defaultFilter;
-  const hasFilter = isNotNullish(ratingFilter);
+  const hasFilter = state.filterByRating !== undefined;
   const updateURL = useUpdateURL();
+  // TODO: Add error handling
   const {
     data,
     error,
@@ -54,9 +54,6 @@ export function ReviewRating({
     productId,
     ratingFilter,
   );
-  console.log(`🚀 ---------------🚀`);
-  console.log(`🚀 ~ data:`, { data, ratingFilter });
-  console.log(`🚀 ---------------🚀`);
   const filterHasReviews = filteredReviewCount > 0;
 
   const { pageSize } = useReviewPageSize();
@@ -130,20 +127,25 @@ export function ReviewRating({
         <div className="right-container flex-1 lg:m-auto">
           {hasReviews && filterHasReviews ? (
             <div className="flex h-full flex-col gap-6 overflow-hidden overflow-y-auto px-4">
-              <div className="">
+              <div className="flex flex-col gap-6">
                 {data?.pages.map((page) => {
                   if (!page.data) return null;
                   return (
-                    <div key={page.pagination.page}>
-                      <ReviewList data={page.data} />
-                    </div>
+                    <ReviewList key={page.pagination.page} data={page.data} />
                   );
                 })}
               </div>
               <DialogFooter>
                 {hasNextPage && (
-                  <Button variant="secondary" size="lg" className="w-full">
-                    Show {pageSize} more reviews
+                  <Button
+                    variant="secondary"
+                    size="lg"
+                    className="w-full"
+                    onClick={() => fetchNextPage()}
+                  >
+                    {isFetchingNextPage
+                      ? "Loading more..."
+                      : `Show ${pageSize} more reviews`}
                   </Button>
                 )}
               </DialogFooter>
@@ -282,7 +284,9 @@ function ReviewList({ data }: { data: DataEntity[] }) {
           <div key={user.user_id} className="flex flex-col gap-4">
             <div className="flex gap-4">
               <Avatar className="h-12 w-12">
-                {user.avatar_url && <AvatarImage src={user.avatar_url} />}
+                {user.avatar_url && (
+                  <AvatarImage src={user.avatar_url} className="object-cover" />
+                )}
                 <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
               </Avatar>
               <div className="details flex flex-auto flex-col items-start gap-1">
@@ -291,7 +295,7 @@ function ReviewList({ data }: { data: DataEntity[] }) {
                     {user.name}
                   </span>
                   <span className="text-sm font-normal text-neutral-600">
-                    {review.created_at}
+                    {formatDate(review.created_at)}
                   </span>
                 </div>
                 <StarRating rating={review.rating} />
@@ -320,4 +324,24 @@ function getInitials(fullName: string): string {
     .join("");
 
   return initials;
+}
+
+function formatDate(dateString: string): string {
+  // Parse the input date string in YYYY-MM-DD format
+  const date = new Date(dateString);
+
+  // Check if the date is valid
+  if (isNaN(date.getTime())) {
+    throw new Error("Invalid date format. Expected format: YYYY-MM-DD");
+  }
+
+  // Format the date to "MMMM d, yyyy"
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  const formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
+
+  return formattedDate;
 }
