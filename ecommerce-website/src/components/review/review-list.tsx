@@ -1,7 +1,7 @@
 import { formatDate, getInitials } from "@/components/review/helpers";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { StarRating } from "@/components/ui/star-rating";
 import { DataEntity } from "@/lib/product-review-types";
-import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 
 export function ReviewList({ data }: { data: DataEntity[] }) {
   return (
