@@ -73,7 +73,7 @@ export function ReviewRating({
           </DialogTrigger>
         ) : (
           <div className="inline-flex gap-0.5 py-1 text-center">
-            <span className="text-sm">No Reviews Yet.</span>{" "}
+            <span className="text-sm">No Reviews Yet.</span>
             <DialogTrigger asChild>
               <Button variant="link" size="md" className="min-w-fit lg:text-sm">
                 Be the first.
@@ -82,6 +82,7 @@ export function ReviewRating({
           </div>
         )}
       </div>
+
       <DialogContent className="flex h-[calc(100%_-96px)] w-full max-w-[calc(100%_-_24px)] flex-col gap-8 overflow-hidden overflow-y-auto rounded-lg px-0 pt-[72px] md:max-w-[522px] md:pb-0 lg:h-[calc(100%_-160px)] lg:max-w-[1008px] lg:flex-row">
         <div className="left-container flex shrink-0 flex-col gap-6 px-3">
           <div className="heading flex flex-col gap-2 lg:min-w-[312px]">
