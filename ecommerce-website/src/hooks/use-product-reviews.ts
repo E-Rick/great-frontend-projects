@@ -1,7 +1,6 @@
 import { ProductReview } from "@/lib/product-review-types";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { InfiniteData, useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import axios from 'axios';
-
 
 export const fetchProductReviewsById = async ({
   queryKey,
@@ -17,9 +16,10 @@ export const fetchProductReviewsById = async ({
   return data;
 };
 
-export const useProductReviewsQuery = <TData = ProductReview>(
+export const useProductReviewsQuery = <TData = InfiniteData<ProductReview>>(
   productId: string,
-  rating?: string
+  rating?: string | null,
+  select?: (data: InfiniteData<ProductReview>) => TData,
 ) =>
   useInfiniteQuery({
     queryKey: ["reviews", productId, rating],
@@ -31,10 +31,18 @@ export const useProductReviewsQuery = <TData = ProductReview>(
       }
       return lastPageParam + 1
     },
+    select
   });
 
-export const useProductReviewData = <TData = ProductReview,>(
+// Returns the review count for a filtered product review
+export const useFilteredProductReviewCount = <TData = InfiniteData<ProductReview>>(
   productId: string,
+  rating?: string | null
 ) => {
-  return useProductReviewsQuery(productId).data
+  return useProductReviewsQuery(productId, rating, (data) => {
+    const filteredReviewCount = data.pages[0]?.aggregate.counts[Number(rating) - 1]?.count
+    return {
+      filteredReviewCount: filteredReviewCount !== undefined ? filteredReviewCount : 0
+    }
+  }).data ?? { filteredReviewCount: 0 }
 }
