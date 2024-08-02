@@ -1,30 +1,39 @@
 import { ProductReview } from "@/lib/product-review-types";
-import { InfiniteData, useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { InfiniteData, useInfiniteQuery } from "@tanstack/react-query";
 import axios from 'axios';
+
+const defaultQueryParams = { pageSize: 12, page: 1 }
 
 export const fetchProductReviewsById = async ({
   queryKey,
   pageParam
 }): Promise<ProductReview> => {
   const productId = queryKey[1];
-  const rating = queryKey[2]
+  const pageSize = queryKey[2] ?? defaultQueryParams.pageSize
+  const rating = queryKey[3]
   const url = new URL(`https://www.greatfrontend.com/api/projects/challenges/e-commerce/products/${productId}/reviews`)
+  url.searchParams.append("per_page", pageSize)
+  if (pageParam !== undefined) {
+    url.searchParams.append("page", pageParam)
+  }
   if (rating !== undefined) {
     url.searchParams.append('rating', rating)
   }
+
   const { data } = await axios.get(url.toString());
   return data;
 };
 
 export const useProductReviewsQuery = <TData = InfiniteData<ProductReview>>(
   productId: string,
-  rating?: string | null,
+  pageSize: number,
+  rating?: string,
   select?: (data: InfiniteData<ProductReview>) => TData,
 ) =>
   useInfiniteQuery({
-    queryKey: ["reviews", productId, rating],
+    queryKey: ["reviews", productId, pageSize, rating],
     queryFn: fetchProductReviewsById,
-    initialPageParam: 0,
+    initialPageParam: defaultQueryParams.page,
     getNextPageParam: (lastPage, allPages, lastPageParam) => {
       if (!lastPage.pagination.has_more) {
         return undefined
@@ -37,22 +46,24 @@ export const useProductReviewsQuery = <TData = InfiniteData<ProductReview>>(
 /**
  * Selects the review count for a filtered product review.
  * @param productId - string
- * @param rating - string | null
+ * @param rating - string | undefined
  * @returns { filteredReviewCount } Returns the review count for a filtered product review. Default to aggregate's total review count if `rating` param is null.
  */
 export const useFilteredProductReviewCount = <TData = InfiniteData<ProductReview>>(
   productId: string,
-  rating?: string | null
+  pageSize: number,
+  rating?: string,
 ) => {
-  return useProductReviewsQuery(productId, rating, (data) => {
-    let countIndex = Number(rating) - 1 // Number() converts null to 0
+  return useProductReviewsQuery(productId, pageSize, rating, (data) => {
+    let countIndex = rating === undefined ? -1 : parseInt(rating) - 1
     let filteredReviewCount = data.pages[0]?.aggregate.counts[countIndex]?.count
-    // If count index is -1 then the rating passed in was null, so use total review count
+    // If count index is -1 then the rating passed in was undefined, so use total review count
     if (countIndex === -1) {
       filteredReviewCount = data.pages[0]?.aggregate.total
     }
     return {
       filteredReviewCount: filteredReviewCount !== undefined ? filteredReviewCount : 0
     }
+    // return the data and check for undefined
   }).data ?? { filteredReviewCount: 0 }
 }
