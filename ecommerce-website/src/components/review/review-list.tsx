@@ -8,9 +8,6 @@ export function ReviewList({ data }: { data: DataEntity[] }) {
     <div className="flex flex-col gap-6">
       {data.map((review) => {
         const user = review.user;
-        // if (!review) {
-        //   return <ReviewSkeleton key={user.user_id} />;
-        // }
         return (
           <div key={user.user_id} className="flex flex-col gap-4">
             <div className="flex gap-4">
