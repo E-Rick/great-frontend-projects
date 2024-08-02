@@ -90,7 +90,7 @@ export function ImageGallery({
                         alt={`Thumbnail ${index + 1}`}
                         width={288}
                         height={190}
-                        className="relative h-full w-full object-cover"
+                        className="relative h-auto w-full object-cover"
                       />
                     </div>
                     {isActive && (
