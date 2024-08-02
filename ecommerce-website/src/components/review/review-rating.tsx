@@ -3,6 +3,7 @@ import { useProduct, useUpdateURL } from "@/components/product/product-context";
 import { hasData } from "@/components/review/helpers";
 import { RatingValues } from "@/components/review/rating-values";
 import { ReviewList } from "@/components/review/review-list";
+import { ReviewSkeleton } from "@/components/review/review-skeleton";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -34,26 +35,21 @@ export function ReviewRating({
   const { pageSize } = useReviewPageSize();
   const updateURL = useUpdateURL();
 
-  const defaultFilter = ""; // TODO: Add in write-up edge case where API doesn't return consistent data when using null.
+  const defaultFilter = undefined; // TODO: Add in write-up edge case where API doesn't return consistent data when using null.
   const ratingFilter = state.filterByRating ?? defaultFilter;
   const hasFilterParam = state.filterByRating !== undefined;
 
   // TODO: Add error handling and better UX when clicking buttons rapidly for filtering
-  const {
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    isFetchingNextPage,
-    status,
-  } = useProductReviewsQuery(productId, ratingFilter);
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
+    useProductReviewsQuery(productId, pageSize, ratingFilter);
 
   const hasReviews = reviewCount > 0;
   const { filteredReviewCount } = useFilteredProductReviewCount(
     productId,
+    pageSize,
     ratingFilter,
   );
+
   const filterHasReviews = filteredReviewCount > 0;
   const dataExists = hasData(data);
   const roundedRating = Math.round(rating * 10) / 10;
@@ -84,7 +80,7 @@ export function ReviewRating({
       </div>
 
       <DialogContent className="flex h-[calc(100%_-96px)] w-full max-w-[calc(100%_-_24px)] flex-col gap-8 overflow-hidden overflow-y-auto rounded-lg px-0 pt-[72px] md:max-w-[522px] md:pb-0 lg:h-[calc(100%_-160px)] lg:max-w-[1008px] lg:flex-row">
-        <div className="left-container flex shrink-0 flex-col gap-6 px-3">
+        <div className="left-container flex h-fit shrink-0 flex-col gap-6 px-3 lg:px-8">
           <div className="heading flex flex-col gap-2 lg:min-w-[312px]">
             <DialogTitle>Overall Rating</DialogTitle>
             <DialogDescription className="gap-y-.5 flex w-full flex-wrap items-center gap-x-2">
@@ -99,7 +95,9 @@ export function ReviewRating({
               )}
             </DialogDescription>
           </div>
+
           <RatingValues productId={productId} />
+
           <div className="flex w-full justify-center gap-6">
             {hasFilterParam && (
               <form>
@@ -116,6 +114,7 @@ export function ReviewRating({
                 </Button>
               </form>
             )}
+
             <Button
               size="xl"
               variant="outline"
@@ -126,7 +125,9 @@ export function ReviewRating({
           </div>
         </div>
         <div className="right-container flex-1 lg:mx-auto">
-          {dataExists && hasReviews && filterHasReviews ? (
+          {status === "pending" ? (
+            <ReviewSkeleton />
+          ) : dataExists && hasReviews && filterHasReviews ? (
             <div className="scrollbox flex h-full flex-col gap-6 overflow-auto px-4">
               <div className="flex flex-col justify-start gap-6">
                 {data?.pages.map((page) => {
@@ -136,6 +137,7 @@ export function ReviewRating({
                   );
                 })}
               </div>
+
               <DialogFooter className="py-6">
                 {hasNextPage && (
                   <Button
@@ -143,6 +145,8 @@ export function ReviewRating({
                     size="lg"
                     className="w-full"
                     onClick={() => fetchNextPage()}
+                    disabled={!hasNextPage || isFetchingNextPage}
+                    aria-disabled={!hasNextPage || isFetchingNextPage}
                   >
                     {isFetchingNextPage
                       ? "Loading more..."
@@ -153,7 +157,7 @@ export function ReviewRating({
             </div>
           ) : (
             <EmptyState
-              className="h-fit p-6 md:h-full"
+              className="h-fit p-6 md:h-full lg:p-0 lg:pr-6"
               header="No reviews yet!"
               subheader="Be the first to review this product"
               icon={<RiChatSmile3Line size={24} className="text-brand" />}
