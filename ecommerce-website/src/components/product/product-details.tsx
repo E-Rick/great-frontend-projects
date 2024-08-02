@@ -5,8 +5,8 @@ import { ColorSelector } from "@/components/product/color-selector";
 import { ImageGallery } from "@/components/product/image-gallery";
 import { PriceTag } from "@/components/product/price-tag";
 import { ProductInfoList } from "@/components/product/product-info-list";
-import { ReviewRating } from "@/components/product/review-rating";
 import { SizeSelectors } from "@/components/product/size-selectors";
+import { ReviewRating } from "@/components/review/review-rating";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {

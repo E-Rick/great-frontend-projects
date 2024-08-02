@@ -1,6 +1,6 @@
 export interface ProductReview {
   aggregate: Aggregate;
-  data?: (DataEntity)[] | null;
+  data: (DataEntity)[];
   pagination: Pagination;
 }
 export interface Aggregate {
