@@ -1,19 +1,27 @@
 import { EmptyState } from "@/components/empty-state";
 import { useProduct, useUpdateURL } from "@/components/product/product-context";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
 import { StarRating } from "@/components/ui/star-rating";
+import { useReviewPageSize } from "@/hooks/use-review-page-size";
+import { DataEntity } from "@/lib/product-review-types";
+import { isNotNullish } from "@/lib/typeguards";
 import { cn } from "@/lib/utils";
 import { useMemo } from "react";
 import { RiChatSmile3Line } from "react-icons/ri";
-import { useProductReviewsQuery } from "../../hooks/use-product-reviews";
+import {
+  useFilteredProductReviewCount,
+  useProductReviewsQuery,
+} from "../../hooks/use-product-reviews";
 
 export function ReviewRating({
   reviewCount,
@@ -25,12 +33,11 @@ export function ReviewRating({
   productId: string;
 }) {
   const roundedRating = Math.round(rating * 10) / 10;
-  const hasReviews = reviewCount > 0;
   const { state, removeOption } = useProduct();
 
-  const defaultFilter = undefined;
+  const defaultFilter = null;
   const ratingFilter = state.filterByRating ?? defaultFilter;
-  const hasFilter = ratingFilter !== undefined;
+  const hasFilter = isNotNullish(ratingFilter);
   const updateURL = useUpdateURL();
   const {
     data,
@@ -41,6 +48,18 @@ export function ReviewRating({
     isFetchingNextPage,
     status,
   } = useProductReviewsQuery(productId, ratingFilter);
+
+  const hasReviews = reviewCount > 0;
+  const { filteredReviewCount } = useFilteredProductReviewCount(
+    productId,
+    ratingFilter,
+  );
+  console.log(`🚀 ---------------🚀`);
+  console.log(`🚀 ~ data:`, { data, ratingFilter });
+  console.log(`🚀 ---------------🚀`);
+  const filterHasReviews = filteredReviewCount > 0;
+
+  const { pageSize } = useReviewPageSize();
 
   return (
     <Dialog>
@@ -66,7 +85,7 @@ export function ReviewRating({
           </div>
         )}
       </div>
-      <DialogContent className="flex w-full max-w-[calc(100%_-_24px)] flex-col gap-8 rounded-lg px-0 pt-[72px] md:max-w-[522px] lg:max-w-[1008px] lg:flex-row">
+      <DialogContent className="flex h-[calc(100%_-96px)] w-full max-w-[calc(100%_-_24px)] flex-col gap-8 overflow-hidden overflow-y-auto rounded-lg px-0 pt-[72px] md:max-w-[522px] lg:h-[calc(100%_-160px)] lg:max-w-[1008px] lg:flex-row">
         <div className="left-container flex shrink-0 flex-col gap-6 px-3">
           <div className="heading flex flex-col gap-2 lg:min-w-[312px]">
             <DialogTitle>Overall Rating</DialogTitle>
@@ -89,6 +108,7 @@ export function ReviewRating({
                 <Button
                   size="xl"
                   variant="tertiary"
+                  className="flex-1"
                   formAction={() => {
                     const newState = removeOption("filterByRating");
                     updateURL(newState);
@@ -98,20 +118,43 @@ export function ReviewRating({
                 </Button>
               </form>
             )}
-            <Button size="xl" variant="outline">
+            <Button
+              size="xl"
+              variant="outline"
+              className={cn(!hasFilter && "w-full")}
+            >
               Write a review
             </Button>
           </div>
         </div>
-        <div className="right-container m-auto flex-1">
-          {reviewCount === 0 ? (
+        <div className="right-container flex-1 lg:m-auto">
+          {hasReviews && filterHasReviews ? (
+            <div className="flex h-full flex-col gap-6 overflow-hidden overflow-y-auto px-4">
+              <div className="">
+                {data?.pages.map((page) => {
+                  if (!page.data) return null;
+                  return (
+                    <div key={page.pagination.page}>
+                      <ReviewList data={page.data} />
+                    </div>
+                  );
+                })}
+              </div>
+              <DialogFooter>
+                {hasNextPage && (
+                  <Button variant="secondary" size="lg" className="w-full">
+                    Show {pageSize} more reviews
+                  </Button>
+                )}
+              </DialogFooter>
+            </div>
+          ) : (
             <EmptyState
+              className="h-fit p-6"
               header="No reviews yet!"
               subheader="Be the first to review this product"
               icon={<RiChatSmile3Line size={24} className="text-brand" />}
             />
-          ) : (
-            <div></div>
           )}
         </div>
       </DialogContent>
@@ -228,4 +271,53 @@ function RatingValue({
       </span>
     </form>
   );
+}
+
+function ReviewList({ data }: { data: DataEntity[] }) {
+  return (
+    <div className="flex flex-col gap-6">
+      {data.map((review) => {
+        const user = review.user;
+        return (
+          <div key={user.user_id} className="flex flex-col gap-4">
+            <div className="flex gap-4">
+              <Avatar className="h-12 w-12">
+                {user.avatar_url && <AvatarImage src={user.avatar_url} />}
+                <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
+              </Avatar>
+              <div className="details flex flex-auto flex-col items-start gap-1">
+                <div className="title flex w-full items-center justify-between">
+                  <span className="font-semibold text-primary">
+                    {user.name}
+                  </span>
+                  <span className="text-sm font-normal text-neutral-600">
+                    {review.created_at}
+                  </span>
+                </div>
+                <StarRating rating={review.rating} />
+              </div>
+            </div>
+
+            <p className="text-base font-normal text-neutral-600">
+              {review.content}
+            </p>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function getInitials(fullName: string): string {
+  if (!fullName) return "";
+
+  // Split the full name by spaces
+  const nameParts = fullName.trim().split(" ");
+
+  // Map each part to its first character and join them together
+  const initials = nameParts
+    .map((part) => (part && part[0] ? part[0].toUpperCase() : ""))
+    .join("");
+
+  return initials;
 }
