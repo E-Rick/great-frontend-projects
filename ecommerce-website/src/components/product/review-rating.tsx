@@ -12,15 +12,15 @@ import {
 } from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
 import { StarRating } from "@/components/ui/star-rating";
+import {
+  useFilteredProductReviewCount,
+  useProductReviewsQuery,
+} from "@/hooks/use-product-reviews";
 import { useReviewPageSize } from "@/hooks/use-review-page-size";
 import { DataEntity } from "@/lib/product-review-types";
 import { cn } from "@/lib/utils";
 import { useMemo } from "react";
 import { RiChatSmile3Line } from "react-icons/ri";
-import {
-  useFilteredProductReviewCount,
-  useProductReviewsQuery,
-} from "../../hooks/use-product-reviews";
 
 export function ReviewRating({
   reviewCount,
@@ -31,13 +31,14 @@ export function ReviewRating({
   rating: number;
   productId: string;
 }) {
-  const roundedRating = Math.round(rating * 10) / 10;
   const { state, removeOption } = useProduct();
+  const { pageSize } = useReviewPageSize();
+  const updateURL = useUpdateURL();
 
   const defaultFilter = null;
   const ratingFilter = state.filterByRating ?? defaultFilter;
   const hasFilter = state.filterByRating !== undefined;
-  const updateURL = useUpdateURL();
+
   // TODO: Add error handling
   const {
     data,
@@ -54,9 +55,10 @@ export function ReviewRating({
     productId,
     ratingFilter,
   );
+
   const filterHasReviews = filteredReviewCount > 0;
 
-  const { pageSize } = useReviewPageSize();
+  const roundedRating = Math.round(rating * 10) / 10;
 
   return (
     <Dialog>
@@ -234,8 +236,6 @@ function RatingValue({
   const { state, updateOption } = useProduct();
   const { data } = useProductReviewsQuery(productId);
 
-  // const defaultFilter = undefined;
-  // const ratingFilter = state.filterByRating ?? defaultFilter;
   const updateURL = useUpdateURL();
 
   const aggregate = data?.pages[0]?.aggregate;
