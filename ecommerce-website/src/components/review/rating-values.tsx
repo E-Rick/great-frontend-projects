@@ -75,7 +75,11 @@ function RatingValue({
 }: RatingValueProps) {
   const { state, updateOption } = useProduct();
   const { pageSize } = useReviewPageSize();
-  const { data } = useProductReviewsQuery(productId, pageSize);
+  const { data } = useProductReviewsQuery(
+    productId,
+    pageSize,
+    rating.toString(),
+  );
 
   const updateURL = useUpdateURL();
 
