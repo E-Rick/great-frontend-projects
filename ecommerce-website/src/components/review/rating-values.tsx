@@ -2,6 +2,7 @@ import { useProduct, useUpdateURL } from "@/components/product/product-context";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useProductReviewsQuery } from "@/hooks/use-product-reviews";
+import { useReviewPageSize } from "@/hooks/use-review-page-size";
 import { cn } from "@/lib/utils";
 import { useMemo } from "react";
 
@@ -73,7 +74,8 @@ function RatingValue({
   rating,
 }: RatingValueProps) {
   const { state, updateOption } = useProduct();
-  const { data } = useProductReviewsQuery(productId);
+  const { pageSize } = useReviewPageSize();
+  const { data } = useProductReviewsQuery(productId, pageSize);
 
   const updateURL = useUpdateURL();
 
@@ -94,7 +96,9 @@ function RatingValue({
       <Button
         variant="link-gray"
         size="lg"
-        className={cn("min-w-[120px] text-disabled", isActive && "text-brand")}
+        disabled={percentage === 0}
+        aria-disabled={percentage === 0}
+        className={cn("min-w-[120px]", isActive && "text-brand")}
         formAction={() => {
           const newState = updateOption("filterByRating", rating.toString());
           updateURL(newState);
