@@ -47,7 +47,7 @@ export function ImageGallery({
               className="h-full w-full object-contain"
               priority
               fill
-              sizes="(min-width: 1024px) 66vw, 100vw"
+              sizes="(max-width: 768px) 91.47vw, (min-width: 769px) 66vw"
             />
           )}
         </div>
