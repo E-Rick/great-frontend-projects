@@ -100,8 +100,8 @@ function RatingValue({
       <Button
         variant="link-gray"
         size="lg"
-        disabled={percentage === 0}
-        aria-disabled={percentage === 0}
+        disabled={total === 0}
+        aria-disabled={total === 0}
         className={cn("min-w-[120px]", isActive && "text-brand")}
         formAction={() => {
           const newState = updateOption("filterByRating", rating.toString());
