@@ -21,11 +21,10 @@ const buttonVariants = cva(
         outline:
           "border border-input bg-white shadow-sm hover:bg-neutral-50  hover:text-primary-hover  focus-visible:bg-neutral-50",
         secondary:
-          "bg-white text-secondary shadow-sm border-[.5px] border-neutral-200 hover:text-primary-hover hover:bg-neutral-50 hover:border-1 disabled:border-none focus- disabled:bg-neutral-100",
+          "bg-white text-secondary shadow-sm border-[.5px] border-neutral-200 hover:text-primary-hover hover:bg-neutral-50 hover:border-1 disabled:border-none disabled:bg-neutral-100",
         ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-brand hover:text-indigo-800",
-        "link-gray":
-          "text-secondary hover:text-primary focus-visible:ring-nav-item/15 ",
+        "link-color": "text-brand hover:text-indigo-800",
+        "link-gray": "text-secondary hover:text-primary ",
         tertiary:
           "bg-white text-brand hover:bg-neutral-50 disabled:bg-neutral-400",
       },
@@ -34,7 +33,7 @@ const buttonVariants = cva(
         sm: "h-8 rounded-md px-3 text-xs",
         md: "h-fit rounded-[4px] text-sm px-0.5",
         lg: "h-11 rounded-[4px] px-8",
-        xl: "h-12 rounded-[4px] px-5",
+        xl: "h-12 rounded-[4px] text-base px-[22px]",
         icon: "h-9 w-9",
       },
     },
@@ -44,19 +43,19 @@ const buttonVariants = cva(
     },
     compoundVariants: [
       {
-        variant: "link",
+        variant: "link-color",
         size: "lg",
         class: "px-0.5 h-fit",
       },
       {
         variant: "link-gray",
         size: "lg",
-        class: "px-0.5 h-fit",
+        class: "px-0.5 h-fit text-base",
       },
       {
-        variant: "link",
+        variant: "link-color",
         size: "md",
-        class: "",
+        class: "min-w-fit lg:text-sm",
       },
     ],
   },
