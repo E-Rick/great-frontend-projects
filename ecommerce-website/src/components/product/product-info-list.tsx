@@ -4,7 +4,13 @@ import { Accordion } from "./accordion";
 const useProductInfo = (productId: string) =>
   useProductData(productId, (data) => data.info);
 
-export function ProductInfoList({ productId }: { productId: string }) {
+export function ProductInfoList({
+  productId,
+  defaultOpen,
+}: {
+  productId: string;
+  defaultOpen?: boolean;
+}) {
   const productInfo = useProductInfo(productId);
 
   if (!productInfo) return null;
@@ -14,7 +20,12 @@ export function ProductInfoList({ productId }: { productId: string }) {
       {productInfo.map((info, i) => {
         if (!info.description) return null;
         return (
-          <Accordion key={i} title={info.title} content={info.description} />
+          <Accordion
+            key={i}
+            title={info.title}
+            content={info.description}
+            defaultOpen={defaultOpen}
+          />
         );
       })}
     </div>

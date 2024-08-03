@@ -96,7 +96,7 @@ export default function ProductDetailsSection() {
             Add to Cart
           </Button>
         </div>
-        <ProductInfoList productId={productId} />
+        <ProductInfoList productId={productId} defaultOpen={true} />
       </div>
     </div>
   );

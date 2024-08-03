@@ -2,13 +2,15 @@
 export function Accordion({
   title,
   content,
+  defaultOpen,
 }: {
   title: string;
   content: string[];
+  defaultOpen?: boolean;
 }) {
   return (
     <div className="mb-6 border-b border-neutral-200 last:mb-0 last:border-none">
-      <details className="group">
+      <details className="group" open={defaultOpen}>
         <summary className="m-auto flex w-full cursor-pointer items-center justify-between pb-8 text-lg font-medium focus-visible:ring-brand">
           {title}
           <span aria-hidden={true}>
