@@ -43,7 +43,7 @@ export function ImageGallery({
             <Image
               src={mainImageUrl}
               alt={`Product image ${imageIndex + 1}`}
-              className="h-full w-full object-contain"
+              className="h-full w-full object-cover"
               priority
               fill
               sizes="(max-width: 768px) 91.47vw, (min-width: 769px) 66vw"
