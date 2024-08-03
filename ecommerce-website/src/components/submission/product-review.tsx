@@ -23,12 +23,9 @@ import {
 import { useReviewPageSize } from "@/hooks/use-review-page-size";
 import { cn } from "@/lib/utils";
 import { useParams } from "next/navigation";
-import { useState } from "react";
 import { RiChatSmile3Line } from "react-icons/ri";
 
 export default function ProductReview() {
-  const [isOpen, setIsOpen] = useState(true);
-
   const { id: productId } = useParams() as { id: string };
   const { state, removeOption } = useProduct();
   const { pageSize } = useReviewPageSize();
@@ -61,7 +58,7 @@ export default function ProductReview() {
 
   return (
     <Dialog defaultOpen>
-      <div className="flex w-full flex-1 flex-col items-center justify-center bg-white shadow-lg">
+      <div className="flex w-full flex-1 flex-col items-center justify-center bg-white shadow md:shadow-lg">
         <div className="opacity-0">
           <div className="gap-y-.5 flex w-full flex-wrap items-center justify-center gap-x-2">
             <span className="text-xl font-medium text-primary">
@@ -90,7 +87,7 @@ export default function ProductReview() {
         <DialogContent
           // prevent auto focus for better submission score
           onOpenAutoFocus={(e) => e.preventDefault()}
-          className="flex h-[calc(100%_-96px)] w-full max-w-[calc(100%_-_24px)] flex-col gap-8 overflow-hidden overflow-y-auto rounded-lg px-0 pt-[72px] focus-visible:outline-none focus-visible:ring-0 md:max-w-[522px] md:pb-0 lg:h-[calc(100%_-160px)] lg:max-w-[1008px] lg:flex-row"
+          className="flex h-[calc(100%_-160px)] w-full max-w-[calc(100%_-_32px)] flex-col gap-8 overflow-hidden overflow-y-auto rounded-lg px-0 pt-[72px] focus-visible:outline-none focus-visible:ring-0 md:max-w-[calc(100%_-_246px)] md:pb-0 lg:h-[calc(100%_-160px)] lg:max-w-[1008px] lg:flex-row"
         >
           <div className="left-container flex h-fit flex-1 flex-col gap-6 px-3 md:px-8 lg:max-w-[384px]">
             <div className="heading flex flex-col gap-2 lg:min-w-[312px]">
