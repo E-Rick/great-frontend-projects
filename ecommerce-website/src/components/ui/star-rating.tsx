@@ -1,12 +1,20 @@
+import { cn } from "@/lib/utils";
+
 const MAX_STARS = 5;
 
-export function StarRating({ rating }: { rating: number }) {
+export function StarRating({
+  rating,
+  className,
+}: {
+  rating: number;
+  className?: string;
+}) {
   const fullStars = Math.floor(rating);
   const partialStarPercentage = Math.round((rating % 1) * 100);
   const hasPartialStar = rating % 1 !== 0;
   const emptyStars = MAX_STARS - Math.ceil(rating);
   return (
-    <div className="inline-flex justify-center gap-1">
+    <div className={cn("inline-flex justify-center gap-1", className)}>
       {Array.from({ length: fullStars }).map((_, i) => (
         <StarIcon key={i} fillPercentage={100} />
       ))}
