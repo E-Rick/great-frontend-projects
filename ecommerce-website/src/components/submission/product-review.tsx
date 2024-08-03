@@ -89,14 +89,14 @@ export default function ProductReview() {
           onOpenAutoFocus={(e) => e.preventDefault()}
           className="flex h-[calc(100%_-160px)] w-full max-w-[calc(100%_-_32px)] flex-col gap-8 overflow-hidden overflow-y-auto rounded-lg px-0 pt-[72px] focus-visible:outline-none focus-visible:ring-0 md:max-w-[calc(100%_-_246px)] md:pb-0 lg:h-[calc(100%_-160px)] lg:max-w-[1008px] lg:flex-row"
         >
-          <div className="left-container flex h-fit flex-1 flex-col gap-6 px-3 md:px-8 lg:max-w-[384px]">
-            <div className="heading flex flex-col gap-2 lg:min-w-[312px]">
+          <div className="left-container flex h-fit flex-col gap-6 px-3 md:px-8 lg:w-[384px] lg:max-w-[384px]">
+            <div className="heading flex flex-col gap-2">
               <DialogTitle>Overall Rating</DialogTitle>
-              <DialogDescription className="flex w-full shrink-0 flex-wrap items-center gap-2">
+              <DialogDescription className="flex w-full flex-wrap items-center gap-2">
                 <span className="text-base font-semibold text-primary">
                   {roundedRating}
                 </span>
-                <StarRating rating={roundedRating} />
+                <StarRating rating={roundedRating} className="gap-2" />
                 {hasReviews && (
                   <span className="text-sm font-normal text-neutral-600">
                     Based on {reviewCount} reviews
@@ -118,7 +118,7 @@ export default function ProductReview() {
                       updateURL(newState);
                     }}
                   >
-                    Clear Filter
+                    <span className="px-.5">Clear Filter</span>
                   </Button>
                 </form>
               )}
@@ -128,20 +128,19 @@ export default function ProductReview() {
                 variant="secondary"
                 className={cn(!hasFilterParam && !filterHasReviews && "w-full")}
               >
-                Write a review
+                <span className="px-0.5">Write a review</span>
               </Button>
             </div>
           </div>
-          <div className="right-container flex-auto">
+
+          <div className="right-container flex flex-auto lg:w-[592px] lg:flex-none">
             {isPending ? (
               <ReviewSkeleton />
             ) : dataExists && hasReviews && filterHasReviews ? (
               <div className="scrollbox flex h-full flex-col gap-6 overflow-auto px-4 md:gap-8 md:px-8 lg:pl-0 lg:pr-8">
-                {data?.pages.map((page) => {
-                  return (
-                    <ReviewList key={page.pagination.page} data={page.data} />
-                  );
-                })}
+                {data?.pages.map((page) => (
+                  <ReviewList key={page.pagination.page} data={page.data} />
+                ))}
 
                 {hasNextPage && (
                   <DialogFooter className="py-6">
