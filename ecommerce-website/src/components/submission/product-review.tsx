@@ -61,122 +61,118 @@ export default function ProductReview() {
 
   return (
     <Dialog defaultOpen>
-      <div className="flex h-full min-h-screen w-full flex-col p-4">
-        <div className="flex w-full flex-1 flex-col items-center justify-center shadow-lg">
-          <div className="opacity-0">
-            <div className="gap-y-.5 flex w-full flex-wrap items-center justify-center gap-x-2">
-              <span className="text-xl font-medium text-primary">
-                {roundedRating}
-              </span>
-              <StarRating rating={roundedRating} />
-              {hasReviews ? (
+      <div className="flex w-full flex-1 flex-col items-center justify-center bg-white shadow-lg">
+        <div className="opacity-0">
+          <div className="gap-y-.5 flex w-full flex-wrap items-center justify-center gap-x-2">
+            <span className="text-xl font-medium text-primary">
+              {roundedRating}
+            </span>
+            <StarRating rating={roundedRating} />
+            {hasReviews ? (
+              <DialogTrigger asChild>
+                <Button variant="link-color" size="md">
+                  See all {reviewCount} reviews
+                </Button>
+              </DialogTrigger>
+            ) : (
+              <div className="inline-flex gap-0.5 py-1 text-center">
+                <span className="text-sm">No Reviews Yet.</span>
                 <DialogTrigger asChild>
                   <Button variant="link-color" size="md">
-                    See all {reviewCount} reviews
+                    Be the first.
                   </Button>
                 </DialogTrigger>
-              ) : (
-                <div className="inline-flex gap-0.5 py-1 text-center">
-                  <span className="text-sm">No Reviews Yet.</span>
-                  <DialogTrigger asChild>
-                    <Button variant="link-color" size="md">
-                      Be the first.
-                    </Button>
-                  </DialogTrigger>
-                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <DialogContent
+          // prevent auto focus for better submission score
+          onOpenAutoFocus={(e) => e.preventDefault()}
+          className="flex h-[calc(100%_-96px)] w-full max-w-[calc(100%_-_24px)] flex-col gap-8 overflow-hidden overflow-y-auto rounded-lg px-0 pt-[72px] focus-visible:outline-none focus-visible:ring-0 md:max-w-[522px] md:pb-0 lg:h-[calc(100%_-160px)] lg:max-w-[1008px] lg:flex-row"
+        >
+          <div className="left-container flex h-fit flex-1 flex-col gap-6 px-3 md:px-8 lg:max-w-[384px]">
+            <div className="heading flex flex-col gap-2 lg:min-w-[312px]">
+              <DialogTitle>Overall Rating</DialogTitle>
+              <DialogDescription className="flex w-full shrink-0 flex-wrap items-center gap-2">
+                <span className="text-base font-semibold text-primary">
+                  {roundedRating}
+                </span>
+                <StarRating rating={roundedRating} />
+                {hasReviews && (
+                  <span className="text-sm font-normal text-neutral-600">
+                    Based on {reviewCount} reviews
+                  </span>
+                )}
+              </DialogDescription>
+            </div>
+
+            <RatingValues productId={productId} />
+
+            <div className="flex w-full justify-center gap-6">
+              {hasFilterParam && (
+                <form className="w-full">
+                  <Button
+                    size="xl"
+                    variant="tertiary"
+                    formAction={() => {
+                      const newState = removeOption("filterByRating");
+                      updateURL(newState);
+                    }}
+                  >
+                    Clear Filter
+                  </Button>
+                </form>
               )}
+
+              <Button
+                size="xl"
+                variant="secondary"
+                className={cn(!hasFilterParam && !filterHasReviews && "w-full")}
+              >
+                Write a review
+              </Button>
             </div>
           </div>
+          <div className="right-container flex-auto">
+            {isPending ? (
+              <ReviewSkeleton />
+            ) : dataExists && hasReviews && filterHasReviews ? (
+              <div className="scrollbox flex h-full flex-col gap-6 overflow-auto px-4 md:gap-8 md:px-8 lg:pl-0 lg:pr-8">
+                {data?.pages.map((page) => {
+                  return (
+                    <ReviewList key={page.pagination.page} data={page.data} />
+                  );
+                })}
 
-          <DialogContent
-            // prevent auto focus for better submission score
-            onOpenAutoFocus={(e) => e.preventDefault()}
-            className="flex h-[calc(100%_-96px)] w-full max-w-[calc(100%_-_24px)] flex-col gap-8 overflow-hidden overflow-y-auto rounded-lg px-0 pt-[72px] focus-visible:outline-none focus-visible:ring-0 md:max-w-[522px] md:pb-0 lg:h-[calc(100%_-160px)] lg:max-w-[1008px] lg:flex-row"
-          >
-            <div className="left-container flex h-fit flex-1 flex-col gap-6 px-3 md:px-8 lg:max-w-[384px]">
-              <div className="heading flex flex-col gap-2 lg:min-w-[312px]">
-                <DialogTitle>Overall Rating</DialogTitle>
-                <DialogDescription className="flex w-full shrink-0 flex-wrap items-center gap-2">
-                  <span className="text-base font-semibold text-primary">
-                    {roundedRating}
-                  </span>
-                  <StarRating rating={roundedRating} />
-                  {hasReviews && (
-                    <span className="text-sm font-normal text-neutral-600">
-                      Based on {reviewCount} reviews
-                    </span>
-                  )}
-                </DialogDescription>
-              </div>
-
-              <RatingValues productId={productId} />
-
-              <div className="flex w-full justify-center gap-6">
-                {hasFilterParam && (
-                  <form className="w-full">
+                {hasNextPage && (
+                  <DialogFooter className="py-6">
                     <Button
-                      size="xl"
-                      variant="tertiary"
-                      formAction={() => {
-                        const newState = removeOption("filterByRating");
-                        updateURL(newState);
-                      }}
+                      variant="secondary"
+                      size="lg"
+                      className="w-full"
+                      onClick={() => fetchNextPage()}
+                      disabled={!hasNextPage || isFetchingNextPage}
+                      aria-disabled={!hasNextPage || isFetchingNextPage}
                     >
-                      Clear Filter
+                      {isFetchingNextPage
+                        ? "Loading more..."
+                        : `Show ${pageSize} more reviews`}
                     </Button>
-                  </form>
+                  </DialogFooter>
                 )}
-
-                <Button
-                  size="xl"
-                  variant="secondary"
-                  className={cn(
-                    !hasFilterParam && !filterHasReviews && "w-full",
-                  )}
-                >
-                  Write a review
-                </Button>
               </div>
-            </div>
-            <div className="right-container flex-auto">
-              {isPending ? (
-                <ReviewSkeleton />
-              ) : dataExists && hasReviews && filterHasReviews ? (
-                <div className="scrollbox flex h-full flex-col gap-6 overflow-auto px-4 md:gap-8 md:px-8 lg:pl-0 lg:pr-8">
-                  {data?.pages.map((page) => {
-                    return (
-                      <ReviewList key={page.pagination.page} data={page.data} />
-                    );
-                  })}
-
-                  {hasNextPage && (
-                    <DialogFooter className="py-6">
-                      <Button
-                        variant="secondary"
-                        size="lg"
-                        className="w-full"
-                        onClick={() => fetchNextPage()}
-                        disabled={!hasNextPage || isFetchingNextPage}
-                        aria-disabled={!hasNextPage || isFetchingNextPage}
-                      >
-                        {isFetchingNextPage
-                          ? "Loading more..."
-                          : `Show ${pageSize} more reviews`}
-                      </Button>
-                    </DialogFooter>
-                  )}
-                </div>
-              ) : (
-                <EmptyState
-                  className="h-fit p-6 md:h-full lg:p-0 lg:pr-6"
-                  header="No reviews yet!"
-                  subheader="Be the first to review this product"
-                  icon={<RiChatSmile3Line size={24} className="text-brand" />}
-                />
-              )}
-            </div>
-          </DialogContent>
-        </div>
+            ) : (
+              <EmptyState
+                className="h-fit p-6 md:h-full lg:p-0 lg:pr-6"
+                header="No reviews yet!"
+                subheader="Be the first to review this product"
+                icon={<RiChatSmile3Line size={24} className="text-brand" />}
+              />
+            )}
+          </div>
+        </DialogContent>
       </div>
     </Dialog>
   );
