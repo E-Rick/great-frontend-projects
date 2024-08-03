@@ -3,7 +3,7 @@ import { Noto_Sans } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 
-const notoSans = Noto_Sans({ subsets: ["latin"] });
+const notoSans = Noto_Sans({ subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
   title: "Ecommerce Website",
