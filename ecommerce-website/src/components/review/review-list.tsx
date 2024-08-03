@@ -5,7 +5,7 @@ import { DataEntity } from "@/lib/product-review-types";
 
 export function ReviewList({ data }: { data: DataEntity[] }) {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 md:gap-8">
       {data.map((review) => {
         const user = review.user;
         return (
