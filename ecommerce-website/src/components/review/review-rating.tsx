@@ -60,10 +60,10 @@ export function ReviewRating({
         <span className="text-xl font-medium text-primary">
           {roundedRating}
         </span>
-        <StarRating rating={rating} />
+        <StarRating rating={roundedRating} />
         {hasReviews ? (
           <DialogTrigger asChild>
-            <Button variant="link" size="md" className="min-w-fit lg:text-sm">
+            <Button variant="link-color" size="md">
               See all {reviewCount} reviews
             </Button>
           </DialogTrigger>
@@ -71,7 +71,7 @@ export function ReviewRating({
           <div className="inline-flex gap-0.5 py-1 text-center">
             <span className="text-sm">No Reviews Yet.</span>
             <DialogTrigger asChild>
-              <Button variant="link" size="md" className="min-w-fit lg:text-sm">
+              <Button variant="link-color" size="md">
                 Be the first.
               </Button>
             </DialogTrigger>
@@ -80,14 +80,14 @@ export function ReviewRating({
       </div>
 
       <DialogContent className="flex h-[calc(100%_-96px)] w-full max-w-[calc(100%_-_24px)] flex-col gap-8 overflow-hidden overflow-y-auto rounded-lg px-0 pt-[72px] md:max-w-[522px] md:pb-0 lg:h-[calc(100%_-160px)] lg:max-w-[1008px] lg:flex-row">
-        <div className="left-container flex h-fit shrink-0 flex-col gap-6 px-3 lg:px-8">
+        <div className="left-container flex h-fit flex-1 flex-col gap-6 px-3 md:px-8 lg:max-w-[384px]">
           <div className="heading flex flex-col gap-2 lg:min-w-[312px]">
             <DialogTitle>Overall Rating</DialogTitle>
-            <DialogDescription className="gap-y-.5 flex w-full flex-wrap items-center gap-x-2">
+            <DialogDescription className="flex w-full shrink-0 flex-wrap items-center gap-2">
               <span className="text-base font-semibold text-primary">
                 {roundedRating}
               </span>
-              <StarRating rating={rating} />
+              <StarRating rating={roundedRating} />
               {hasReviews && (
                 <span className="text-sm font-normal text-neutral-600">
                   Based on {reviewCount} reviews
@@ -100,46 +100,42 @@ export function ReviewRating({
 
           <div className="flex w-full justify-center gap-6">
             {hasFilterParam && (
-              <form>
+              <form className="w-full">
                 <Button
                   size="xl"
                   variant="tertiary"
-                  className="flex-1"
                   formAction={() => {
                     const newState = removeOption("filterByRating");
                     updateURL(newState);
                   }}
                 >
-                  Clear Filter
+                  <span className="px-.5">Clear Filter</span>
                 </Button>
               </form>
             )}
 
             <Button
               size="xl"
-              variant="outline"
-              className={cn(!hasFilterParam && "w-full")}
+              variant="secondary"
+              className={cn(!hasFilterParam && !filterHasReviews && "w-full")}
             >
-              Write a review
+              <span className="px-0.5">Write a review</span>
             </Button>
           </div>
         </div>
-        <div className="right-container flex-1 lg:mx-auto">
+        <div className="right-container flex-auto">
           {status === "pending" ? (
             <ReviewSkeleton />
           ) : dataExists && hasReviews && filterHasReviews ? (
-            <div className="scrollbox flex h-full flex-col gap-6 overflow-auto px-4">
-              <div className="flex flex-col justify-start gap-6">
-                {data?.pages.map((page) => {
-                  // if (!page.data) return null;
-                  return (
-                    <ReviewList key={page.pagination.page} data={page.data} />
-                  );
-                })}
-              </div>
+            <div className="scrollbox flex h-full flex-col gap-6 overflow-auto px-4 md:gap-8 md:px-8 lg:pl-0 lg:pr-8">
+              {data?.pages.map((page) => {
+                return (
+                  <ReviewList key={page.pagination.page} data={page.data} />
+                );
+              })}
 
-              <DialogFooter className="py-6">
-                {hasNextPage && (
+              {hasNextPage && (
+                <DialogFooter className="py-6">
                   <Button
                     variant="secondary"
                     size="lg"
@@ -152,8 +148,8 @@ export function ReviewRating({
                       ? "Loading more..."
                       : `Show ${pageSize} more reviews`}
                   </Button>
-                )}
-              </DialogFooter>
+                </DialogFooter>
+              )}
             </div>
           ) : (
             <EmptyState
