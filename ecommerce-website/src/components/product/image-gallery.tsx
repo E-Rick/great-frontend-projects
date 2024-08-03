@@ -1,7 +1,6 @@
 "use client";
 import { useProduct, useUpdateURL } from "@/components/product/product-context";
 import ScrollableContainer from "@/components/product/scrollable-container";
-import { BlurImage } from "@/components/ui/blur-image";
 import { useProductImagesByColor } from "@/hooks/use-product-query";
 import { cn, wrap } from "@/lib/utils";
 import Image from "next/image";
@@ -38,10 +37,10 @@ export function ImageGallery({
 
   return (
     <form>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 lg:gap-6">
         <div className="relative h-[400px] w-full overflow-hidden rounded-lg outline-primary md:h-[800px] lg:w-[592px]">
           {mainImageUrl && (
-            <BlurImage
+            <Image
               src={mainImageUrl}
               alt={`Product image ${imageIndex + 1}`}
               className="h-full w-full object-contain"
