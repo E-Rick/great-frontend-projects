@@ -14,11 +14,13 @@ import {
   useProductQuery,
 } from "@/hooks/use-product-query";
 import { useParams, useSearchParams } from "next/navigation";
+import { useMediaQuery } from "usehooks-ts";
 
 export default function ProductDetailsSection() {
   const { id: productId } = useParams() as { id: string };
   const { data } = useProductQuery(productId);
   const searchParams = useSearchParams();
+  const isMobile = useMediaQuery("(max-width: 425px)");
 
   const defaultColor = data?.colors?.[0] ?? null;
   const defaultSize = data?.sizes?.[0] ?? null;
@@ -89,9 +91,10 @@ export default function ProductDetailsSection() {
             )}
           </div>
           <Button
-            size="xl"
-            variant={isSelectedItemOutOfStock ? "secondary" : "default"}
+            size={isMobile ? "xl" : "2xl"}
+            variant="primary"
             disabled={isSelectedItemOutOfStock}
+            aria-disabled={isSelectedItemOutOfStock}
           >
             Add to Cart
           </Button>
