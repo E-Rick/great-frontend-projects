@@ -28,80 +28,74 @@ export const CartControl = ({ productId, color, size }: CartControlProps) => {
     hasQuantity && Number(state.quantity) === inventory?.stock;
 
   return (
-    <div className="flex h-auto w-[125px] gap-3 rounded-md border border-neutral-200 bg-neutral-50 p-[2px]">
-      <form>
+    <form className="flex w-[125px] items-center justify-center gap-3 rounded-md bg-neutral-50 p-0.5 outline outline-1 outline-neutral-200">
+      <Button
+        formAction={() => {
+          const prev = Number(state.quantity) ?? 1;
+          const newQuantity = prev >= 2 ? prev - 1 : 1;
+          const newState = updateOption("quantity", newQuantity.toString());
+          updateURL(newState);
+        }}
+        variant="link-gray"
+        size="icon"
+        disabled={!hasQuantity || state.quantity === "1" || isOutOfStock}
+        aria-disabled={!hasQuantity || state.quantity === "1" || isOutOfStock}
+        tabIndex={-1}
+      >
+        <RiSubtractFill size={20} />
+      </Button>
+      <span className="w-[49px] gap-2 px-3 py-1.5 text-center text-sm font-medium">
+        {state.quantity || 1}
+      </span>
+      {hasMaxQuantity || isOutOfStock ? (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                formAction={() => {
+                  const prev: string = state.quantity ?? "1";
+                  const newQuantity =
+                    parseInt(prev) == inventory?.stock
+                      ? prev
+                      : parseInt(prev) + 1;
+                  const newState = updateOption(
+                    "quantity",
+                    newQuantity.toString(),
+                  );
+                  updateURL(newState);
+                }}
+                variant="link-gray"
+                size="icon"
+                disabled={hasMaxQuantity || isOutOfStock}
+                aria-disabled={hasMaxQuantity || isOutOfStock}
+                tabIndex={-1}
+              >
+                <RiAddFill size={20} />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <span>Insufficient stock</span>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      ) : (
         <Button
           formAction={() => {
-            const prev = Number(state.quantity) ?? 1;
-            const newQuantity = prev >= 2 ? prev - 1 : 1;
+            const prev: string = state.quantity ?? "1";
+            const newQuantity =
+              parseInt(prev) == inventory?.stock ? prev : parseInt(prev) + 1;
             const newState = updateOption("quantity", newQuantity.toString());
             updateURL(newState);
           }}
-          variant="ghost"
+          variant="link-gray"
           size="icon"
-          disabled={!hasQuantity || state.quantity === "1" || isOutOfStock}
-          aria-disabled={!hasQuantity || state.quantity === "1" || isOutOfStock}
+          disabled={hasMaxQuantity || isOutOfStock}
+          aria-disabled={hasMaxQuantity || isOutOfStock}
           tabIndex={-1}
         >
-          <RiSubtractFill />
+          <RiAddFill size={20} />
         </Button>
-      </form>
-      <span className="m-auto flex w-[49px] items-center justify-center text-sm font-medium">
-        {state.quantity || 1}
-      </span>
-      <form>
-        {hasMaxQuantity || isOutOfStock ? (
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  formAction={() => {
-                    const prev: string = state.quantity ?? "1";
-                    const newQuantity =
-                      parseInt(prev) == inventory?.stock
-                        ? prev
-                        : parseInt(prev) + 1;
-                    const newState = updateOption(
-                      "quantity",
-                      newQuantity.toString(),
-                    );
-                    updateURL(newState);
-                  }}
-                  variant="ghost"
-                  size="icon"
-                  disabled={hasMaxQuantity || isOutOfStock}
-                  aria-disabled={hasMaxQuantity || isOutOfStock}
-                  tabIndex={-1}
-                  className="disabled:cursor-not-allowed"
-                >
-                  <RiAddFill />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Insufficient stock</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        ) : (
-          <Button
-            formAction={() => {
-              const prev: string = state.quantity ?? "1";
-              const newQuantity =
-                parseInt(prev) == inventory?.stock ? prev : parseInt(prev) + 1;
-              const newState = updateOption("quantity", newQuantity.toString());
-              updateURL(newState);
-            }}
-            variant="ghost"
-            size="icon"
-            disabled={hasMaxQuantity || isOutOfStock}
-            aria-disabled={hasMaxQuantity || isOutOfStock}
-            tabIndex={-1}
-            className="disabled:cursor-not-allowed"
-          >
-            <RiAddFill />
-          </Button>
-        )}
-      </form>
-    </div>
+      )}
+    </form>
   );
 };
