@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 const buttonVariants = cva({
   base: [
     "inline-flex items-center gap-1.5 justify-center whitespace-nowrap",
-    "rounded-[4px] text-sm font-normal transition-colors",
+    "rounded-[4px] text-sm font-medium transition-colors",
     "focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-nav-item/15 ",
     "disabled:text-disabled disabled:cursor-not-allowed",
   ],
@@ -26,7 +26,6 @@ const buttonVariants = cva({
         "bg-white text-brand hover:bg-neutral-50 disabled:bg-neutral-400",
     },
     size: {
-      default: "h-9 px-4 py-2",
       sm: "px-3 text-xs",
       md: "px-3.5 py-2.5 gap-1 text-sm",
       lg: "px-4 py-2.5",
@@ -37,23 +36,23 @@ const buttonVariants = cva({
   },
   defaultVariants: {
     variant: "primary",
-    size: "default",
+    size: "md",
   },
   compoundVariants: [
     {
       variant: "link-color",
       size: "lg",
-      class: "px-0.5 h-fit",
+      class: "p-0 text-base",
     },
     {
       variant: "link-gray",
       size: "lg",
-      class: "px-0.5 h-fit text-base",
+      class: "p-0 text-base",
     },
     {
       variant: "link-color",
       size: "md",
-      class: "font-medium p-0",
+      class: "p-0",
     },
   ],
 });
