@@ -8,7 +8,6 @@ import { ProductInfoList } from "@/components/product/product-info-list";
 import { SizeSelectors } from "@/components/product/size-selectors";
 import { ReviewRating } from "@/components/review/review-rating";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import {
   useProductInventoryByColorAndSize,
   useProductQuery,
@@ -76,14 +75,11 @@ export default function ProductDetailsSection() {
               selectedSize={selectedSize}
             />
             {/* Quantity controls */}
-            <div className="flex flex-col gap-4">
-              <Label>Quantity</Label>
-              <CartControl
-                productId={productId}
-                color={selectedColor}
-                size={selectedSize}
-              />
-            </div>
+            <CartControl
+              productId={productId}
+              color={selectedColor}
+              size={selectedSize}
+            />
             {isSelectedItemOutOfStock && (
               <p className="text-xl font-semibold text-primary">
                 Sorry, this item is out of stock
