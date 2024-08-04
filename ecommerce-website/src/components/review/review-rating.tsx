@@ -56,7 +56,7 @@ export function ReviewRating({
 
   return (
     <Dialog>
-      <div className="gap-y-.5 flex w-full flex-wrap items-center gap-x-2">
+      <div className="flex w-full flex-wrap items-center gap-x-2 gap-y-0.5">
         <span className="text-xl font-medium text-primary">
           {roundedRating}
         </span>
@@ -109,7 +109,7 @@ export function ReviewRating({
                     updateURL(newState);
                   }}
                 >
-                  <span className="px-.5">Clear Filter</span>
+                  Clear Filter
                 </Button>
               </form>
             )}
@@ -119,7 +119,7 @@ export function ReviewRating({
               variant="secondary"
               className={cn(!hasFilterParam && !filterHasReviews && "w-full")}
             >
-              <span className="px-0.5">Write a review</span>
+              Write a review
             </Button>
           </div>
         </div>
