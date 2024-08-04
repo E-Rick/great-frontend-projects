@@ -139,8 +139,8 @@ export default function ProductReview() {
                 <ReviewList key={page.pagination.page} data={page.data} />
               ))}
 
-              {hasNextPage && (
-                <DialogFooter className="py-6">
+              <DialogFooter className="py-6">
+                {hasNextPage && (
                   <Button
                     variant="secondary"
                     size="lg"
@@ -153,8 +153,8 @@ export default function ProductReview() {
                       ? "Loading more..."
                       : `Show ${pageSize} more reviews`}
                   </Button>
-                </DialogFooter>
-              )}
+                )}
+              </DialogFooter>
             </div>
           ) : (
             <EmptyState
