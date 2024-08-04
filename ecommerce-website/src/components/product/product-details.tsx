@@ -38,7 +38,7 @@ export default function ProductDetailsSection() {
   if (!data) return null;
 
   return (
-    <div className="mx-auto flex w-full max-w-screen-xl flex-col gap-12 px-4 py-16 lg:flex-row lg:gap-8 lg:px-8 lg:pt-24">
+    <div className="mx-auto flex w-full max-w-screen-xl flex-col gap-12 px-4 py-12 md:py-16 lg:flex-row lg:gap-8 lg:px-8 lg:pt-24">
       <ImageGallery productId={productId} selectedColor={selectedColor} />
       <div className="flex flex-col gap-10">
         <div className="flex w-full flex-col gap-8">
