@@ -37,7 +37,7 @@ export function ImageGallery({
 
   return (
     <form>
-      <div className="flex flex-col gap-2 lg:gap-6">
+      <div className="flex flex-col gap-6">
         <div className="relative h-[400px] w-full overflow-hidden rounded-lg outline-primary md:h-[800px] lg:w-[592px]">
           {mainImageUrl && (
             <Image
@@ -95,7 +95,7 @@ export function ImageGallery({
                     {isActive && (
                       <div
                         role="presentation"
-                        className="border-3 absolute inset-0 rounded-lg border-indigo-500 transition-all"
+                        className="absolute inset-0 rounded-lg border-[3px] border-indigo-500 transition-all"
                       />
                     )}
                   </button>
