@@ -102,13 +102,16 @@ function RatingValue({
         size="lg"
         disabled={total === 0}
         aria-disabled={total === 0}
-        className={cn("min-w-[120px]", isActive && "text-brand")}
+        className={cn(
+          "min-w-[120px] justify-start",
+          isActive && "text-brand hover:text-indigo-800",
+        )}
         formAction={() => {
           const newState = updateOption("filterByRating", rating.toString());
           updateURL(newState);
         }}
       >
-        <span className="mr-auto">{label}</span>
+        {label}
       </Button>
       <Progress
         value={percentage}
