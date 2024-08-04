@@ -43,7 +43,7 @@ export default function ProductDetailsSection() {
       <div className="flex flex-col gap-10">
         <div className="flex w-full flex-col gap-8">
           <div className="product-header flex flex-col gap-5">
-            <h2 className="text-3xl font-semibold text-primary lg:text-5xl">
+            <h2 className="text-3xl font-semibold text-primary md:text-5xl">
               {data.name}
             </h2>
 
