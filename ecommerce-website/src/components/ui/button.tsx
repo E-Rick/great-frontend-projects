@@ -27,10 +27,10 @@ const buttonVariants = cva({
     },
     size: {
       sm: "px-3 text-xs",
-      md: "px-3.5 py-2.5 gap-1 text-sm",
+      md: "px-3.5 py-2.5 text-sm gap-1",
       lg: "px-4 py-2.5",
-      xl: "text-base px-5 py-3",
-      "2xl": "px-6 py-4 rounded-[4px] text-lg gap-2.5",
+      xl: "px-5 py-3 text-base",
+      "2xl": "px-6 py-4 text-lg ",
       icon: "p-0 w-max",
     },
   },

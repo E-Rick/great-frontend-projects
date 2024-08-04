@@ -17,10 +17,10 @@ export function Accordion({
             <Icon />
           </span>
         </summary>
-        <div className="-mt-6 mb-7 overflow-hidden opacity-0 transition-all duration-300 ease-in-out group-open:opacity-100">
+        <div className="-mt-6 mb-8 overflow-hidden opacity-0 transition-all duration-300 ease-in-out group-open:opacity-100">
           <ul className="ml-[1.5rem] list-outside list-disc pr-12 text-neutral-600">
             {content.map((text, i) => (
-              <li key={i} className="text-xs">
+              <li key={i} className="text-[10px]">
                 <span className="text-base">{text}</span>
               </li>
             ))}
