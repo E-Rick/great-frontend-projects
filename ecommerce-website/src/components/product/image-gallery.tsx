@@ -95,7 +95,7 @@ export function ImageGallery({
                     {isActive && (
                       <div
                         role="presentation"
-                        className="absolute inset-0 rounded-lg border-4 border-indigo-500 transition-all"
+                        className="border-3 absolute inset-0 rounded-lg border-indigo-500 transition-all"
                       />
                     )}
                   </button>
