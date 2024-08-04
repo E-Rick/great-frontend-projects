@@ -98,20 +98,18 @@ export function ReviewRating({
 
           <RatingValues productId={productId} />
 
-          <div className="flex w-full justify-center gap-6">
+          <form className="flex w-full justify-center gap-6">
             {hasFilterParam && (
-              <form className="w-full">
-                <Button
-                  size="xl"
-                  variant="tertiary"
-                  formAction={() => {
-                    const newState = removeOption("filterByRating");
-                    updateURL(newState);
-                  }}
-                >
-                  Clear Filter
-                </Button>
-              </form>
+              <Button
+                size="xl"
+                variant="tertiary"
+                formAction={() => {
+                  const newState = removeOption("filterByRating");
+                  updateURL(newState);
+                }}
+              >
+                Clear Filter
+              </Button>
             )}
 
             <Button
@@ -121,7 +119,7 @@ export function ReviewRating({
             >
               Write a review
             </Button>
-          </div>
+          </form>
         </div>
 
         <div className="right-container flex flex-auto lg:w-[592px] lg:flex-none">
