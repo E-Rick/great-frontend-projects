@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/sheet";
 import WordMark from "@/components/ui/word-mark";
 import { cn } from "@/lib/utils";
-import { cva } from "class-variance-authority";
+import { cva } from "cva";
 import Link from "next/link";
 import { RiCloseLine, RiMenuFill, RiShoppingBag3Line } from "react-icons/ri";
 
@@ -20,21 +20,23 @@ export const navItems = [
   },
 ];
 
-export const navItemStyles = cva([
-  "text-secondary font-medium rounded-[4px] px-0.5",
-  "focus:outline-none focus:ring focus:ring-nav-item/15",
-  "hover:text-primary disabled:text-disabled transition-colors",
-]);
+export const navItemStyles = cva({
+  base: [
+    "text-secondary font-medium rounded-[4px] px-0.5",
+    "focus:outline-none focus:ring focus:ring-nav-item/15",
+    "hover:text-primary disabled:text-disabled transition-colors",
+  ],
+});
 
 export function Nav() {
   return (
-    <header className="sticky inset-x-0 top-0 z-30 w-full pt-4 transition-all bg-white">
+    <header className="sticky inset-x-0 top-0 z-30 w-full bg-white pt-4 transition-all">
       <MaxWidthWrapper className="relative">
         <nav className="flex w-full shrink-0 items-center justify-between md:gap-[103px]">
           <Link href="/" className="shrink-0">
             <WordMark />
           </Link>
-          <ul className="flex gap-8 grow">
+          <ul className="flex grow gap-8">
             {navItems.map((navItem) => (
               <li key={navItem.name}>
                 <Link
@@ -83,7 +85,7 @@ function NavMobileMenu() {
         className="flex flex-col gap-6 bg-white"
         hideClose
       >
-        <SheetHeader className="flex-row items-center justify-between w-full space-y-0">
+        <SheetHeader className="w-full flex-row items-center justify-between space-y-0">
           <WordMark />
           <SheetClose className={cn(navItemStyles(), "")}>
             <RiCloseLine size={20} />
